@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 01 — 自我介紹 | English Daily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A18;
+      --red: #C0392B;
+      --ink-light: #4A4A42;
+      --cream-dark: #EAE4D6;
+      --rule: rgba(26,26,24,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--cream); color: var(--ink); font-family: 'Noto Serif TC', serif; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+
+    /* HEADER */
+    .site-header { border-bottom: 2px solid var(--ink); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .site-logo { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--ink); }
+    .site-logo span { color: var(--red); }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .nav-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--red); }
+
+    /* PROGRESS */
+    .progress-bar { height: 4px; background: var(--cream-dark); }
+    .progress-fill { height: 100%; width: 5%; background: var(--red); transition: width 0.5s; }
+
+    /* BANNER */
+    .day-banner { background: var(--ink); color: var(--cream); padding: 2.5rem 3rem; position: relative; overflow: hidden; }
+    .day-banner::after { content: 'DAY 01'; position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: clamp(4rem, 9vw, 7rem); font-weight: 300; opacity: 0.07; letter-spacing: -0.05em; pointer-events: none; }
+    .banner-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A09A; margin-bottom: 0.6rem; }
+    .banner-title { font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.4rem; }
+    .banner-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: rgba(245,240,232,0.55); margin-bottom: 1.2rem; }
+    .banner-chips { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .chip { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.65); }
+
+    /* VOICE BAR */
+    .voice-bar { background: var(--cream-dark); border-bottom: 1px solid var(--rule); padding: 0.65rem 3rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .voice-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+    .voice-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.2rem 0.75rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .voice-btn.vm { }
+    .voice-btn.active-m { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .voice-btn.active-f { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .rate-group { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+    .rate-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; padding: 0.18rem 0.55rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .rate-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+    /* MAIN LAYOUT */
+    .page-body { max-width: 1100px; margin: 0 auto; padding: 3rem; }
+
+    /* SECTION HEADERS */
+    .sec-hd { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2rem; padding-bottom: 0.7rem; border-bottom: 2px solid var(--ink); }
+    .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--red); text-transform: uppercase; }
+    .sec-title { font-size: 1.25rem; font-weight: 700; }
+    .sec-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-light); margin-left: auto; }
+    .lesson-sec { margin-bottom: 4.5rem; }
+
+    /* STRATEGY BOX */
+    .strategy-box { border: 1px solid var(--ink); padding: 1.5rem 1.8rem; margin-bottom: 2.5rem; position: relative; background: var(--cream-dark); }
+    .strategy-box::before { content: 'LEARNING STRATEGY'; position: absolute; top: -0.6rem; left: 1rem; background: var(--cream-dark); padding: 0 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--red); }
+    .strategy-text { font-size: 0.95rem; line-height: 1.85; color: var(--ink-light); }
+    .strategy-text strong { color: var(--ink); }
+
+    /* PHRASE BANK */
+    .phrase-bank { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 1.5rem; }
+    .phrase-card { background: var(--cream); padding: 1.1rem 1.3rem; }
+    .phrase-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; font-weight: 500; margin-bottom: 0.15rem; line-height: 1.4; }
+    .phrase-zh { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 0.5rem; }
+    .phrase-note { font-size: 0.75rem; color: var(--red); font-style: italic; margin-bottom: 0.6rem; line-height: 1.4; }
+    .btn-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn-s { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.22rem 0.6rem; border: 1px solid var(--ink); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .btn-s:hover { background: var(--ink); color: var(--cream); }
+    .btn-s.f { border-color: var(--red); color: var(--red); }
+    .btn-s.f:hover { background: var(--red); color: var(--cream); }
+    .btn-s.slow { border-color: var(--ink-light); color: var(--ink-light); }
+    .btn-s.slow:hover { background: var(--ink-light); color: var(--cream); }
+
+    /* SCENARIO BLOCK */
+    .scenario-block { border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .scenario-hd { background: var(--ink); color: var(--cream); padding: 0.85rem 1.3rem; display: flex; justify-content: space-between; align-items: center; }
+    .scenario-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .scenario-situation { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: rgba(245,240,232,0.5); letter-spacing: 0.1em; }
+    .scenario-body { padding: 0; }
+
+    /* CONVERSATION */
+    .conv-section { border-bottom: 1px solid var(--rule); }
+    .conv-section:last-child { border-bottom: none; }
+    .conv-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); padding: 0.6rem 1.3rem; background: var(--cream-dark); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+    .conv-lines { padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 1rem; }
+    .conv-line { display: grid; grid-template-columns: 70px 1fr auto; gap: 0.8rem; align-items: start; }
+    .conv-speaker { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); padding-top: 0.15rem; font-weight: 500; }
+    .conv-speaker.you { color: var(--ink); }
+    .conv-content { }
+    .conv-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; line-height: 1.5; margin-bottom: 0.18rem; }
+    .conv-zh { font-size: 0.78rem; color: var(--ink-light); line-height: 1.4; }
+    .conv-listen-btn { }
+
+    /* LISTEN CHALLENGE */
+    .listen-challenge { background: var(--cream-dark); border: 1px solid var(--rule); padding: 1.3rem 1.5rem; margin: 0 1.3rem 1.3rem; }
+    .lc-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.8rem; }
+    .lc-question { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+    .lc-options { display: flex; flex-direction: column; gap: 0.45rem; }
+    .lc-option { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; padding: 0.6rem 0.9rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; text-align: left; transition: all 0.18s; line-height: 1.4; display: flex; align-items: center; gap: 0.7rem; }
+    .lc-option:hover { border-color: var(--ink); }
+    .lc-option .opt-label { color: var(--red); min-width: 18px; }
+    .lc-option.correct { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .lc-option.correct .opt-label { color: #E8A09A; }
+    .lc-option.wrong { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .lc-option.wrong .opt-label { color: rgba(245,240,232,0.7); }
+    .lc-feedback { margin-top: 0.8rem; font-size: 0.82rem; line-height: 1.6; display: none; padding: 0.8rem; border-left: 3px solid var(--ink); background: var(--cream); }
+    .lc-feedback.show { display: block; }
+
+    /* RESPONSE PRACTICE */
+    .response-practice { margin: 0 1.3rem 1.5rem; }
+    .rp-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+    .rp-title::before { content: ''; display: block; height: 1px; width: 30px; background: var(--rule); }
+    .rp-prompt { background: var(--cream-dark); border-left: 3px solid var(--red); padding: 0.9rem 1.2rem; margin-bottom: 1rem; }
+    .rp-prompt-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--red); text-transform: uppercase; margin-bottom: 0.35rem; }
+    .rp-prompt-text { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; line-height: 1.5; }
+    .rp-prompt-zh { font-size: 0.78rem; color: var(--ink-light); margin-top: 0.2rem; }
+    .response-options { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .resp-option { border: 1px solid var(--rule); padding: 0.85rem 1.1rem; cursor: pointer; transition: all 0.18s; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; background: var(--cream); }
+    .resp-option:hover { border-color: var(--ink); }
+    .resp-option.selected-good { border-color: var(--ink); background: var(--ink); color: var(--cream); }
+    .resp-option.selected-ok { border-color: var(--ink-light); background: var(--cream-dark); }
+    .resp-option.selected-bad { border-color: var(--red); opacity: 0.7; }
+    .resp-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; line-height: 1.4; }
+    .resp-zh { font-size: 0.75rem; color: var(--ink-light); margin-top: 0.15rem; line-height: 1.3; }
+    .resp-option.selected-good .resp-zh { color: rgba(245,240,232,0.65); }
+    .resp-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; padding: 0.18rem 0.55rem; border: 1px solid var(--rule); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+    .resp-option.selected-good .resp-tag, .resp-option.selected-ok .resp-tag, .resp-option.selected-bad .resp-tag { opacity: 1; }
+    .resp-option.selected-good .resp-tag { border-color: rgba(245,240,232,0.3); color: rgba(245,240,232,0.7); }
+
+    /* SHADOW PRACTICE */
+    .shadow-box { border: 1px solid var(--rule); background: var(--cream-dark); padding: 1.3rem 1.5rem; margin-bottom: 1.5rem; }
+    .shadow-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1.2rem; }
+    .shadow-steps { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .shadow-step { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; align-items: start; }
+    .shadow-step-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); font-weight: 500; padding-top: 0.1rem; }
+    .shadow-step-text { font-size: 0.88rem; line-height: 1.6; color: var(--ink-light); }
+    .shadow-step-text strong { color: var(--ink); }
+    .shadow-phrase { border: 1px solid var(--rule); background: var(--cream); padding: 1rem 1.2rem; margin-bottom: 0.6rem; }
+    .shadow-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.92rem; margin-bottom: 0.15rem; }
+    .shadow-phonetic { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--red); margin-bottom: 0.35rem; }
+    .shadow-zh { font-size: 0.78rem; color: var(--ink-light); }
+    .shadow-tip { font-size: 0.78rem; color: var(--ink-light); background: var(--cream); border-left: 2px solid var(--rule); padding: 0.5rem 0.8rem; margin-top: 0.5rem; line-height: 1.5; }
+
+    /* KEY PHRASES TABLE */
+    .key-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85rem; }
+    .key-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: left; padding: 0.6rem 1rem; border-bottom: 2px solid var(--ink); color: var(--ink-light); }
+    .key-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+    .key-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--ink); }
+    .key-table td:nth-child(2) { color: var(--ink-light); font-size: 0.82rem; }
+    .key-table td:last-child { font-size: 0.75rem; color: var(--red); font-style: italic; }
+    .key-table tr:last-child td { border-bottom: none; }
+
+    /* KEYWORD RADAR */
+    .keyword-radar { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .kw-card { background: var(--cream); padding: 1rem 1.2rem; }
+    .kw-word { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .kw-zh { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.4rem; }
+    .kw-when { font-size: 0.72rem; color: var(--red); font-style: italic; line-height: 1.4; }
+
+    /* SUMMARY */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: var(--cream-dark); border: 1px solid var(--rule); padding: 2rem; }
+    .sum-col-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 1.2rem; }
+    .sum-phrase-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .sum-phrase { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.5; border-bottom: 1px solid var(--rule); padding-bottom: 0.6rem; }
+    .sum-phrase:last-child { border-bottom: none; padding-bottom: 0; }
+    .sum-phrase span { color: var(--ink-light); font-size: 0.72rem; display: block; }
+    .tip-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .tip-item { font-size: 0.85rem; line-height: 1.65; color: var(--ink-light); display: grid; grid-template-columns: 20px 1fr; gap: 0.5rem; }
+    .tip-item::before { content: attr(data-n); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); padding-top: 0.15rem; }
+
+    /* NAV */
+    .lesson-nav { border-top: 2px solid var(--ink); padding: 1.8rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 1.4rem; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; transition: all 0.18s; }
+    .nav-btn:hover { background: var(--ink); color: var(--cream); }
+    .nav-btn.next { background: var(--red); border-color: var(--red); color: var(--cream); }
+    .nav-btn.next:hover { background: var(--ink); border-color: var(--ink); }
+    .nav-progress { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--ink-light); letter-spacing: 0.1em; text-align: center; }
+
+    /* PLAY BAR */
+    .play-bar { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.8rem; flex-wrap: wrap; }
+    .play-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.9rem; background: var(--ink); color: var(--cream); border: none; cursor: pointer; transition: background 0.18s; }
+    .play-all-btn:hover { background: var(--red); }
+
+    /* BADGES */
+    .badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.15rem 0.5rem; border: 1px solid var(--rule); color: var(--ink-light); }
+    .badge.red { border-color: var(--red); color: var(--red); }
+
+    @media (max-width: 768px) {
+      .site-header, .day-banner, .page-body, .lesson-nav, .voice-bar { padding-left: 1.4rem; padding-right: 1.4rem; }
+      .conv-line { grid-template-columns: 55px 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .phrase-bank { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .phrase-bank { grid-template-columns: 1fr; }
+      .lc-options { }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="site-logo">English <span>Daily</span></a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-link">課程目錄</a>
+    <a href="day2.html" class="nav-link">Day 02</a>
+  </nav>
+</header>
+
+<div class="progress-bar"><div class="progress-fill"></div></div>
+
+<div class="day-banner">
+  <div class="banner-tag">Day 01 / 20 — Beginner — 入門基礎</div>
+  <h1 class="banner-title">自我介紹與打招呼</h1>
+  <p class="banner-en">Introductions & Greetings — 5 Real Scenarios</p>
+  <div class="banner-chips">
+    <span class="chip">Listening Focus</span>
+    <span class="chip">Speaking Response</span>
+    <span class="chip">Shadow Practice</span>
+    <span class="chip">5 Scenarios</span>
+  </div>
+</div>
+
+<div class="voice-bar">
+  <span class="voice-label">發音</span>
+  <button class="voice-btn active-m" id="btn-male" onclick="setVoice('male')">Male</button>
+  <button class="voice-btn" id="btn-female" onclick="setVoice('female')">Female</button>
+  <div class="rate-group">
+    <span class="voice-label">語速</span>
+    <button class="rate-btn active" onclick="setRate(0.75, this)">慢</button>
+    <button class="rate-btn" onclick="setRate(1.0, this)">正常</button>
+    <button class="rate-btn" onclick="setRate(1.25, this)">快</button>
+  </div>
+</div>
+
+<div class="page-body">
+
+<!-- ============================================================ -->
+<!-- PART 0: TODAY'S CHALLENGE + STRATEGY -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">今日挑戰</span>
+    <h2 class="sec-title">你面臨的真實問題</h2>
+  </div>
+
+  <div class="strategy-box">
+    <p class="strategy-text">
+      你說：<strong>「我聽得懂關鍵字，但不知道怎麼完整回應。」</strong><br><br>
+      這是最常見、也最正常的卡關。原因很簡單：我們學英語時背了很多句子，但從來沒練習過<strong>「聽到刺激 → 自動產出回應」</strong>的反射。<br><br>
+      今天的訓練方法：每個場景你先聽，<strong>抓住 1-2 個關鍵字就夠了</strong>。再看我們準備好的幾個回應選項，選出你最能說得出來的那個，然後跟著大聲念。重點不是完美，是<strong>讓嘴巴動起來</strong>。
+    </p>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PART 1: 關鍵字雷達 — 聽到這些字，你就知道怎麼回 -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 01</span>
+    <h2 class="sec-title">關鍵字雷達</h2>
+    <span class="sec-sub">聽到這些字 → 馬上知道對方在問什麼</span>
+  </div>
+
+  <p style="font-size:0.9rem;line-height:1.8;color:var(--ink-light);margin-bottom:1.5rem;">別急著背整句。先認識這些<strong style="color:var(--ink)">觸發詞</strong>——當你在對話中聽到它們，大腦就會自動切換到對應模式。</p>
+
+  <div class="keyword-radar">
+    <div class="kw-card">
+      <div class="kw-word">name</div>
+      <div class="kw-zh">名字</div>
+      <div class="kw-when">聽到 → 說出你的名字<br>"I'm ___" 或 "My name is ___"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('What is your name?')">Male</button>
+        <button class="btn-s f" onclick="speakF('What is your name?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">from</div>
+      <div class="kw-zh">從哪裡來</div>
+      <div class="kw-when">聽到 → 說你的國家或城市<br>"I'm from Taiwan / Taipei"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('Where are you from?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Where are you from?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">do / work</div>
+      <div class="kw-zh">職業 / 工作</div>
+      <div class="kw-when">聽到 → 說你的職業<br>"I'm a ___" 或 "I work as a ___"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('What do you do for work?')">Male</button>
+        <button class="btn-s f" onclick="speakF('What do you do for work?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">here / visit</div>
+      <div class="kw-zh">來這裡 / 旅遊</div>
+      <div class="kw-when">聽到 → 說旅遊、出差或其他原因<br>"I'm here for vacation"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('Are you here on vacation?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Are you here on vacation?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">long / stay</div>
+      <div class="kw-zh">停留多久</div>
+      <div class="kw-when">聽到 → 說天數或時間<br>"About a week" / "Five days"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('How long are you staying?')">Male</button>
+        <button class="btn-s f" onclick="speakF('How long are you staying?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">nice / meet</div>
+      <div class="kw-zh">初次見面</div>
+      <div class="kw-when">聽到 → 直接回<br>"Nice to meet you too!"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('Nice to meet you!')">Male</button>
+        <button class="btn-s f" onclick="speakF('Nice to meet you!')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">how are / how's</div>
+      <div class="kw-zh">你好嗎</div>
+      <div class="kw-when">聽到 → 說狀態<br>"Good, thanks!" / "Not bad!"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('How are you doing today?')">Male</button>
+        <button class="btn-s f" onclick="speakF('How are you doing today?')">Female</button>
+      </div>
+    </div>
+    <div class="kw-card">
+      <div class="kw-word">first time</div>
+      <div class="kw-zh">第一次</div>
+      <div class="kw-when">聽到 → 說是/否並加一句感受<br>"Yes, it's my first time here!"</div>
+      <div class="play-bar" style="margin-top:0.7rem">
+        <button class="btn-s" onclick="speak('Is this your first time in Japan?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Is this your first time in Japan?')">Female</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PART 2: PHRASE BANK -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 02</span>
+    <h2 class="sec-title">今日核心句型</h2>
+    <span class="sec-sub">背起來，任何場合直接用</span>
+  </div>
+
+  <div class="phrase-bank">
+    <div class="phrase-card">
+      <div class="phrase-en">Hi! I'm [name].</div>
+      <div class="phrase-zh">嗨！我是 [名字]。</div>
+      <div class="phrase-note">最自然的打招呼方式，比"My name is"更口語</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Hi! I am Alex.')">Male</button>
+        <button class="btn-s f" onclick="speakF('Hi! I am Sarah.')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Hi! I am Alex.')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Nice to meet you!</div>
+      <div class="phrase-zh">很高興認識你！</div>
+      <div class="phrase-note">對方說完後直接接這句，100%適用</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Nice to meet you!')">Male</button>
+        <button class="btn-s f" onclick="speakF('Nice to meet you!')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Nice to meet you!')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">I'm from Taiwan.</div>
+      <div class="phrase-zh">我來自台灣。</div>
+      <div class="phrase-note">把 Taiwan 換成你的城市也完全OK</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('I am from Taiwan.')">Male</button>
+        <button class="btn-s f" onclick="speakF('I am from Taiwan.')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('I am from Taiwan.')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">I'm here on vacation.</div>
+      <div class="phrase-zh">我來這裡度假的。</div>
+      <div class="phrase-note">出國旅遊必說的一句，出差改 "on business"</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('I am here on vacation.')">Male</button>
+        <button class="btn-s f" onclick="speakF('I am here on vacation.')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('I am here on vacation.')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">I work as a [job].</div>
+      <div class="phrase-zh">我的職業是 [工作]。</div>
+      <div class="phrase-note">比 "I am a..." 稍微更自然的說法</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('I work as a software engineer.')">Male</button>
+        <button class="btn-s f" onclick="speakF('I work as a teacher.')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('I work as a software engineer.')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">I'm staying for about a week.</div>
+      <div class="phrase-zh">我大概待一個星期。</div>
+      <div class="phrase-note">"about" 讓數字不需要精確，很好用</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('I am staying for about a week.')">Male</button>
+        <button class="btn-s f" onclick="speakF('I am staying for about a week.')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('I am staying for about a week.')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">What about you? / And you?</div>
+      <div class="phrase-zh">你呢？</div>
+      <div class="phrase-note">說完自己的答案後加這句，讓對話繼續</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('What about you?')">Male</button>
+        <button class="btn-s f" onclick="speakF('And you?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('What about you?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Sorry, could you say that again?</div>
+      <div class="phrase-zh">抱歉，可以再說一次嗎？</div>
+      <div class="phrase-note">最重要的救命句！聽不懂就用它</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Sorry, could you say that again?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Sorry, could you say that again?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Sorry, could you say that again?')">慢速</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PART 3: SCENARIO TRAINING -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 03</span>
+    <h2 class="sec-title">場景訓練 × 5</h2>
+    <span class="sec-sub">聽 → 抓關鍵字 → 選回應 → 跟讀</span>
+  </div>
+
+  <p style="font-size:0.9rem;line-height:1.8;color:var(--ink-light);margin-bottom:2rem;">
+    每個場景：先聽對話，再做聽力測驗，最後練習你的回應。<strong style="color:var(--ink)">遇到聽不懂的地方，先猜關鍵字，再看文字確認。</strong>
+  </p>
+
+  <!-- SCENARIO 1 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 01 — 飛機上遇到鄰座</span>
+      <span class="scenario-situation">On the Plane</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話 — 先聽，試著理解大意</span>
+          <button class="play-all-btn" onclick="playScenario1()">播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">Passenger</span>
+            <div class="conv-content">
+              <div class="conv-en">"Hi! I'm Jake. Is anyone sitting here?"</div>
+              <div class="conv-zh">嗨！我是 Jake。這裡有人坐嗎？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Hi! I am Jake. Is anyone sitting here?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"No, it's free. Go ahead!"</div>
+              <div class="conv-zh">沒有，空的。請坐！</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('No, it is free. Go ahead!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Passenger</span>
+            <div class="conv-content">
+              <div class="conv-en">"Thanks! Where are you headed?"</div>
+              <div class="conv-zh">謝謝！你要去哪裡？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Thanks! Where are you headed?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm going to Tokyo. It's my first time there!"</div>
+              <div class="conv-zh">我要去東京。這是我第一次去那裡！</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('I am going to Tokyo. It is my first time there!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Passenger</span>
+            <div class="conv-content">
+              <div class="conv-en">"Oh really? I've been there three times! You'll love it. I'm Jake, by the way."</div>
+              <div class="conv-zh">真的嗎？我去過三次了！你一定會喜歡的。對了，我是 Jake。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Oh really? I have been there three times! You will love it. I am Jake, by the way.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Nice to meet you, Jake! I'm Wei. Do you have any recommendations?"</div>
+              <div class="conv-zh">很高興認識你，Jake！我是 Wei。你有什麼推薦嗎？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Nice to meet you, Jake! I am Wei. Do you have any recommendations?')">聽</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTENING CHALLENGE 1 -->
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗 — 聽一遍，回答問題</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 01</div>
+          <div class="lc-question">Jake 說了 "I've been there three times" — 他的意思是什麼？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc1fb')"><span class="opt-label">A</span>他去過東京三次</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc1fb')"><span class="opt-label">B</span>這是他第三次坐飛機</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc1fb')"><span class="opt-label">C</span>他曾經去過那個地方三次</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc1fb')"><span class="opt-label">D</span>他要去三個地方</button>
+          </div>
+          <div class="lc-feedback" id="lc1fb">正確！"I've been there" = 我去過那裡（現在完成式）。"three times" = 三次。所以是「我去過那個地方三次」。這個句型非常常用！</div>
+        </div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 02 — 快速聽力</div>
+          <div class="lc-question">當 Jake 說 "Is anyone sitting here?"，他想問的是：</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc2fb')"><span class="opt-label">A</span>你是誰？</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc2fb')"><span class="opt-label">B</span>這個位子有人嗎？可以坐嗎？</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc2fb')"><span class="opt-label">C</span>你在等誰？</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc2fb')"><span class="opt-label">D</span>要換位子嗎？</button>
+          </div>
+          <div class="lc-feedback" id="lc2fb">正確！"Is anyone sitting here?" 字面是「有人坐這裡嗎？」等於在問「我可以坐這裡嗎？」。你可以回答 "No, go ahead!" 或 "Yes, someone's sitting here, sorry."</div>
+        </div>
+      </div>
+
+      <!-- RESPONSE PRACTICE 1 -->
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習 — 選出你的回應，然後大聲說出來</span></div>
+        <div class="response-practice">
+          <div class="rp-title">你聽到這句話，你會怎麼回？</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"Where are you headed?"</div>
+            <div class="rp-prompt-zh">你要去哪裡？</div>
+          </div>
+          <div class="response-options" id="rp1">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'I am going to Tokyo. It is my first time there!')">
+              <div>
+                <div class="resp-en">"I'm going to Tokyo. It's my first time!"</div>
+                <div class="resp-zh">我要去東京。這是我第一次！</div>
+              </div>
+              <span class="resp-tag">完整</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Tokyo.')">
+              <div>
+                <div class="resp-en">"Tokyo."</div>
+                <div class="resp-zh">東京。（簡短但有效）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Tokyo. First time!')">
+              <div>
+                <div class="resp-en">"Tokyo. First time!"</div>
+                <div class="resp-zh">東京。第一次！（碎片句，完全可以）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'bad', '')">
+              <div>
+                <div class="resp-en">（沉默，不知道怎麼說）</div>
+                <div class="resp-zh">我們要練習跳出這個模式！</div>
+              </div>
+              <span class="resp-tag">需改進</span>
+            </div>
+          </div>
+          <div id="rp1-fb" style="display:none;padding:0.9rem 1rem;background:var(--cream-dark);border-left:3px solid var(--red);font-size:0.85rem;line-height:1.7;margin-bottom:1rem;">
+            <strong>重點：即使只說 "Tokyo." 也是有效的回應！</strong> 不需要完整句子。說完地名後，可以加 "First time!" 讓對話繼續。永遠比沉默好。
+          </div>
+        </div>
+
+        <div class="response-practice">
+          <div class="rp-title">再練一句</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"I'm Jake, by the way."</div>
+            <div class="rp-prompt-zh">對了，我是 Jake。</div>
+          </div>
+          <div class="response-options" id="rp2">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Nice to meet you Jake! I am Wei.')">
+              <div>
+                <div class="resp-en">"Nice to meet you, Jake! I'm Wei."</div>
+                <div class="resp-zh">很高興認識你，Jake！我是 Wei。</div>
+              </div>
+              <span class="resp-tag">完整</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Nice to meet you! I am Wei.')">
+              <div>
+                <div class="resp-en">"Nice to meet you! I'm Wei."</div>
+                <div class="resp-zh">很高興認識你！我是 Wei。</div>
+              </div>
+              <span class="resp-tag">自然</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Hi Jake! Wei.')">
+              <div>
+                <div class="resp-en">"Hi Jake! Wei." （指著自己）</div>
+                <div class="resp-zh">超簡短版，也完全可以</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 2 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 02 — 青旅交誼廳遇到旅人</span>
+      <span class="scenario-situation">Hostel Common Room</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playScenario2()">播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">Emma</span>
+            <div class="conv-content">
+              <div class="conv-en">"Hey! You just checked in, right? I'm Emma."</div>
+              <div class="conv-zh">嘿！你剛辦理入住吧？我是 Emma。</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Hey! You just checked in, right? I am Emma.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yeah! Hi Emma, I'm Wei. Nice to meet you."</div>
+              <div class="conv-zh">對！嗨 Emma，我是 Wei。很高興認識你。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yeah! Hi Emma, I am Wei. Nice to meet you.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Emma</span>
+            <div class="conv-content">
+              <div class="conv-en">"Where are you from?"</div>
+              <div class="conv-zh">你從哪裡來？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Where are you from?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Taiwan. Taipei, actually. And you?"</div>
+              <div class="conv-zh">台灣。說起來是台北。你呢？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Taiwan. Taipei, actually. And you?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Emma</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm from Australia, Melbourne. How long are you staying here?"</div>
+              <div class="conv-zh">我來自澳洲，墨爾本。你要在這裡待多久？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('I am from Australia, Melbourne. How long are you staying here?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"About five days. Then I'm going to Osaka."</div>
+              <div class="conv-zh">大概五天。然後我要去大阪。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('About five days. Then I am going to Osaka.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Emma</span>
+            <div class="conv-content">
+              <div class="conv-en">"Oh nice! I'm headed to Osaka too! Maybe we can travel together."</div>
+              <div class="conv-zh">哦太棒了！我也要去大阪！也許我們可以一起旅行。</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Oh nice! I am headed to Osaka too! Maybe we can travel together.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"That sounds great! I'd love that."</div>
+              <div class="conv-zh">聽起來太好了！我很樂意。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('That sounds great! I would love that.')">聽</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 03</div>
+          <div class="lc-question">Emma 說 "I'm headed to Osaka too" — "headed to" 的意思是？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc3fb')"><span class="opt-label">A</span>我去過大阪</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc3fb')"><span class="opt-label">B</span>我要去（前往）大阪</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc3fb')"><span class="opt-label">C</span>大阪在我頭的方向</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc3fb')"><span class="opt-label">D</span>我住在大阪</button>
+          </div>
+          <div class="lc-feedback" id="lc3fb">"Headed to" = 前往、要去。跟 "going to" 意思一樣，但更口語。"Where are you headed?" 和 "Where are you going?" 完全可以互換！</div>
+        </div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 04 — 最關鍵的資訊</div>
+          <div class="lc-question">當對方說 "How long are you staying here?"，你聽到哪個關鍵字就知道要說天數？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc4fb')"><span class="opt-label">A</span>you / your</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc4fb')"><span class="opt-label">B</span>are</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc4fb')"><span class="opt-label">C</span>long / staying</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc4fb')"><span class="opt-label">D</span>here</button>
+          </div>
+          <div class="lc-feedback" id="lc4fb">正確！聽到 "long" 或 "stay/staying" 就要準備說時間。可以只說 "About five days." 或 "Five days." 就夠了，不需要完整句子。</div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">練習回應這句</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"How long are you staying here?"</div>
+            <div class="rp-prompt-zh">你要在這裡待多久？</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'About five days. Then I am going to Osaka.')">
+              <div>
+                <div class="resp-en">"About five days. Then I'm going to Osaka."</div>
+                <div class="resp-zh">大概五天。然後我要去大阪。（加了後續計畫，讓對話更豐富）</div>
+              </div>
+              <span class="resp-tag">完整</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Five days.')">
+              <div>
+                <div class="resp-en">"Five days."</div>
+                <div class="resp-zh">五天。（最簡單的有效回應）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'About a week. Not sure yet.')">
+              <div>
+                <div class="resp-en">"About a week. Not sure yet."</div>
+                <div class="resp-zh">大概一週。還不確定。（很真實的回答）</div>
+              </div>
+              <span class="resp-tag">自然</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 3 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 03 — 參加導覽活動認識其他遊客</span>
+      <span class="scenario-situation">Free Walking Tour — Meeting Strangers</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playScenario3()">播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">David</span>
+            <div class="conv-content">
+              <div class="conv-en">"Hi there! Are you also doing the walking tour?"</div>
+              <div class="conv-zh">嗨！你也參加這個步行導覽嗎？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Hi there! Are you also doing the walking tour?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes! This is my first time on one of these. I'm Wei."</div>
+              <div class="conv-zh">是的！這是我第一次參加這種活動。我是 Wei。</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Yes! This is my first time on one of these. I am Wei.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">David</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm David! I've done this tour twice — it's really good. Are you traveling solo?"</div>
+              <div class="conv-zh">我是 David！我這個導覽做過兩次了——真的很棒。你是獨自旅行嗎？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('I am David! I have done this tour twice, it is really good. Are you traveling solo?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yeah, solo. It's a bit scary but exciting! What about you?"</div>
+              <div class="conv-zh">是，獨自旅行。有點可怕但也很刺激！你呢？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Yeah, solo. It is a bit scary but exciting! What about you?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">David</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm with my girlfriend. We're from Canada. How about you, where are you from?"</div>
+              <div class="conv-zh">我和我女朋友一起。我們來自加拿大。你呢，你從哪裡來？</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('I am with my girlfriend. We are from Canada. How about you, where are you from?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm from Taiwan. This is my first time in Europe!"</div>
+              <div class="conv-zh">我來自台灣。這是我第一次來歐洲！</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('I am from Taiwan. This is my first time in Europe!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">David</span>
+            <div class="conv-content">
+              <div class="conv-en">"First time in Europe? That's amazing! You're going to have the best time."</div>
+              <div class="conv-zh">第一次來歐洲？太厲害了！你一定會玩得非常開心。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('First time in Europe? That is amazing! You are going to have the best time.')">聽</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 05 — 快速反應</div>
+          <div class="lc-question">David 問 "Are you traveling solo?" — 你不知道 "solo" 是什麼意思，但你聽到了 "traveling"，你最可能猜到他在問什麼？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc5fb')"><span class="opt-label">A</span>你搭什麼交通工具</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc5fb')"><span class="opt-label">B</span>你是一個人旅行還是有同伴</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc5fb')"><span class="opt-label">C</span>你去過哪些地方</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc5fb')"><span class="opt-label">D</span>你旅行多久了</button>
+          </div>
+          <div class="lc-feedback" id="lc5fb">很好的推理！"Solo" = 獨自一人。即使不懂這個詞，從 "traveling" 的上下文可以猜是關於旅伴的問題。這就是「用關鍵字猜大意」的技巧！遇到不懂的字不要慌，先猜。</div>
+        </div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 06 — 情緒理解</div>
+          <div class="lc-question">David 說 "That's amazing!" — 他的語氣是什麼？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc6fb')"><span class="opt-label">A</span>驚訝和懷疑</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc6fb')"><span class="opt-label">B</span>正面的驚嘆，表示印象深刻或羨慕</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc6fb')"><span class="opt-label">C</span>不感興趣</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc6fb')"><span class="opt-label">D</span>表示不相信</button>
+          </div>
+          <div class="lc-feedback" id="lc6fb">"Amazing!" = 太棒了！是正面的感嘆詞。英語對話中，這類情緒詞非常多："That's great!" / "Oh wow!" / "Really?" / "No way!" — 聽到這些，對方只是在表達反應，你可以繼續說下去！</div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">當對方說完後如何延續對話</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"I'm with my girlfriend. We're from Canada."</div>
+            <div class="rp-prompt-zh">我和女友一起。我們來自加拿大。</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Oh nice! I am from Taiwan. Is this your first time in Japan too?')">
+              <div>
+                <div class="resp-en">"Oh nice! I'm from Taiwan. Is this your first time in Japan too?"</div>
+                <div class="resp-zh">哦太好了！我來自台灣。你們也是第一次來日本嗎？（把話題拋回去）</div>
+              </div>
+              <span class="resp-tag">完整 + 延續</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Oh! Canada. I am from Taiwan.')">
+              <div>
+                <div class="resp-en">"Oh! Canada. I'm from Taiwan."</div>
+                <div class="resp-zh">哦！加拿大。我來自台灣。（簡單交換資訊）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Cool! I am solo. From Taiwan.')">
+              <div>
+                <div class="resp-en">"Cool! I'm solo. From Taiwan."</div>
+                <div class="resp-zh">很棒！我是一個人。來自台灣。（碎片句也可以）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 4 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 04 — 工作場合第一次見到外國客戶</span>
+      <span class="scenario-situation">Business / Professional Setting</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playScenario4()">播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">Client</span>
+            <div class="conv-content">
+              <div class="conv-en">"Good morning. You must be Wei from the Taipei office?"</div>
+              <div class="conv-zh">早安。你一定是來自台北辦公室的 Wei 吧？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Good morning. You must be Wei from the Taipei office?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes, that's right! You must be Michael. It's a pleasure to meet you."</div>
+              <div class="conv-zh">是的！你一定是 Michael。很榮幸認識你。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yes, that is right! You must be Michael. It is a pleasure to meet you.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Client</span>
+            <div class="conv-content">
+              <div class="conv-en">"The pleasure is mine! Is this your first visit to our office?"</div>
+              <div class="conv-zh">我也是！這是你第一次來我們辦公室嗎？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('The pleasure is mine! Is this your first visit to our office?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes, it is. Your office is very impressive!"</div>
+              <div class="conv-zh">是的。你們的辦公室非常令人印象深刻！</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yes, it is. Your office is very impressive!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Client</span>
+            <div class="conv-content">
+              <div class="conv-en">"Thank you! How was your flight? You came from Taipei, right?"</div>
+              <div class="conv-zh">謝謝！你的班機如何？你從台北來的，對嗎？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Thank you! How was your flight? You came from Taipei, right?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes, it was about three hours. Not too bad! I arrived last night."</div>
+              <div class="conv-zh">是的，大約三個小時。還好！我昨晚抵達的。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yes, it was about three hours. Not too bad! I arrived last night.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Client</span>
+            <div class="conv-content">
+              <div class="conv-en">"Great! Well, let's get started. Can I get you a coffee?"</div>
+              <div class="conv-zh">太好了！那我們開始吧。要給你來杯咖啡嗎？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Great! Well, let us get started. Can I get you a coffee?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes please, that would be lovely. Thank you!"</div>
+              <div class="conv-zh">好的，那太好了。謝謝！</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yes please, that would be lovely. Thank you!')">聽</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 07 — 商務語言</div>
+          <div class="lc-question">"The pleasure is mine" 是什麼意思？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc7fb')"><span class="opt-label">A</span>這是我的工作</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc7fb')"><span class="opt-label">B</span>我也很榮幸（回應對方說「很高興認識你」）</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc7fb')"><span class="opt-label">C</span>這是我的問題</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc7fb')"><span class="opt-label">D</span>這是我的辦公室</button>
+          </div>
+          <div class="lc-feedback" id="lc7fb">"It's a pleasure to meet you" → "The pleasure is mine!" 是標準的禮貌回應，意思是「我也很榮幸」。這在商務場合非常常用。跟 "Nice to meet you too!" 意思相近，但更正式。</div>
+        </div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 08 — 理解提問方式</div>
+          <div class="lc-question">"How was your flight?" 是在問什麼？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, true, 'lc8fb')"><span class="opt-label">A</span>你的班機/旅途怎麼樣</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc8fb')"><span class="opt-label">B</span>你的班機幾點</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc8fb')"><span class="opt-label">C</span>你搭哪家航空</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc8fb')"><span class="opt-label">D</span>你的行李多重</button>
+          </div>
+          <div class="lc-feedback" id="lc8fb">"How was your + 經歷？" = 問那個經歷怎麼樣。常用的回答："Not too bad!" / "It was great!" / "A bit long but okay." 這個句型超常用，也可以問別人 "How was your day?" / "How was your weekend?"</div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">超高頻場景：有人問你班機如何</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"How was your flight?"</div>
+            <div class="rp-prompt-zh">你的班機怎麼樣？</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Not too bad! About three hours. I arrived last night.')">
+              <div>
+                <div class="resp-en">"Not too bad! About three hours. I arrived last night."</div>
+                <div class="resp-zh">還好！大約三小時。我昨晚抵達。</div>
+              </div>
+              <span class="resp-tag">完整自然</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Good, thanks!')">
+              <div>
+                <div class="resp-en">"Good, thanks!"</div>
+                <div class="resp-zh">很好，謝謝！（最簡短的有效回應）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'A bit long, but fine!')">
+              <div>
+                <div class="resp-en">"A bit long, but fine!"</div>
+                <div class="resp-zh">有點長，但還好！</div>
+              </div>
+              <span class="resp-tag">自然</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 5 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 05 — 咖啡廳等位，旁邊的人主動搭話</span>
+      <span class="scenario-situation">Casual / Cafe</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playScenario5()">播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">Lisa</span>
+            <div class="conv-content">
+              <div class="conv-en">"This place is packed today, isn't it?"</div>
+              <div class="conv-zh">今天這裡好擠，是吧？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('This place is packed today, is not it?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yeah, really busy! I've been waiting for twenty minutes."</div>
+              <div class="conv-zh">是啊，真的很忙！我已經等了二十分鐘了。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('Yeah, really busy! I have been waiting for twenty minutes.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Lisa</span>
+            <div class="conv-content">
+              <div class="conv-en">"Ha! Same. Are you from around here? I haven't seen you before."</div>
+              <div class="conv-zh">哈！我也是。你是本地人嗎？我之前沒見過你。</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Ha! Same. Are you from around here? I have not seen you before.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"No, I'm a tourist! Just visiting for a few days. I'm from Taiwan."</div>
+              <div class="conv-zh">不，我是遊客！只是來玩幾天。我來自台灣。</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('No, I am a tourist! Just visiting for a few days. I am from Taiwan.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Lisa</span>
+            <div class="conv-content">
+              <div class="conv-en">"Oh wow, Taiwan! I've always wanted to go there. What's it like?"</div>
+              <div class="conv-zh">哇，台灣！我一直很想去那裡。那裡怎麼樣？</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Oh wow, Taiwan! I have always wanted to go there. What is it like?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"It's amazing! The food is incredible and people are very friendly. You should visit!"</div>
+              <div class="conv-zh">非常棒！食物很好吃，人們也非常友善。你應該去！</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('It is amazing! The food is incredible and people are very friendly. You should visit!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Lisa</span>
+            <div class="conv-content">
+              <div class="conv-en">"Maybe I will! By the way, I'm Lisa."</div>
+              <div class="conv-zh">也許我真的會去！對了，我是 Lisa。</div>
+            </div>
+            <button class="btn-s f" style="align-self:center" onclick="speakF('Maybe I will! By the way, I am Lisa.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm Wei! Nice to meet you, Lisa. Let me know if you ever visit Taiwan!"</div>
+              <div class="conv-zh">我是 Wei！很高興認識你，Lisa。如果你去台灣，告訴我！</div>
+            </div>
+            <button class="btn-s" style="align-self:center" onclick="speak('I am Wei! Nice to meet you, Lisa. Let me know if you ever visit Taiwan!')">聽</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 09 — 理解天氣/環境類閒聊</div>
+          <div class="lc-question">Lisa 說 "This place is packed today" — "packed" 在這裡是什麼意思？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'lc9fb')"><span class="opt-label">A</span>這個地方打包好了</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'lc9fb')"><span class="opt-label">B</span>這個地方非常擁擠</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc9fb')"><span class="opt-label">C</span>這個地方有很多包裹</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc9fb')"><span class="opt-label">D</span>這個地方快關門了</button>
+          </div>
+          <div class="lc-feedback" id="lc9fb">"Packed" 在口語中 = 擠滿人的。很常用！"The subway is packed." / "The restaurant was packed." 聽到這個詞，你只要同意就好："Yeah, really busy!" 或 "I know!" 都是完美的回應。</div>
+        </div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 10 — 進階理解</div>
+          <div class="lc-question">Lisa 說 "I've always wanted to go there" — 她的意思是？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, true, 'lc10fb')"><span class="opt-label">A</span>她一直很想去台灣（但還沒去過）</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc10fb')"><span class="opt-label">B</span>她以前常常去台灣</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc10fb')"><span class="opt-label">C</span>她剛從台灣回來</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'lc10fb')"><span class="opt-label">D</span>她不想去台灣</button>
+          </div>
+          <div class="lc-feedback" id="lc10fb">"I've always wanted to + 動詞" = 我一直想要…（心願）。這是個很有用的句型！你可以用來表達對某地或某件事的嚮往：「I've always wanted to try sushi!」 / 「I've always wanted to visit Italy!」</div>
+        </div>
+      </div>
+
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習 — 最重要的一關</span></div>
+        <div class="response-practice">
+          <div class="rp-title">當陌生人問你台灣怎麼樣，你怎麼介紹？</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"Taiwan! I've always wanted to go. What's it like?"</div>
+            <div class="rp-prompt-zh">台灣！我一直想去。那裡怎麼樣？</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'It is amazing! The food is incredible and people are very friendly. You should definitely visit!')">
+              <div>
+                <div class="resp-en">"It's amazing! The food is incredible and people are very friendly. You should visit!"</div>
+                <div class="resp-zh">非常棒！食物很好吃，人們很友善。你一定要去！</div>
+              </div>
+              <span class="resp-tag">完整精彩</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Really good! Great food. Very friendly people.')">
+              <div>
+                <div class="resp-en">"Really good! Great food. Very friendly people."</div>
+                <div class="resp-zh">很好！食物很棒。人很友善。（碎片句完全可以）</div>
+              </div>
+              <span class="resp-tag">簡短 OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'I love it! You should go.')">
+              <div>
+                <div class="resp-en">"I love it! You should go."</div>
+                <div class="resp-zh">我很愛！你應該去。（超簡短但有感情）</div>
+              </div>
+              <span class="resp-tag">簡短有力</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PART 4: SHADOW PRACTICE — 跟讀訓練 -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 04</span>
+    <h2 class="sec-title">跟讀訓練 Shadow Practice</h2>
+    <span class="sec-sub">最有效的口語練習法</span>
+  </div>
+
+  <div class="shadow-box">
+    <div class="shadow-title">HOW TO SHADOW — 怎麼練</div>
+    <div class="shadow-steps">
+      <div class="shadow-step">
+        <span class="shadow-step-num">01</span>
+        <div class="shadow-step-text">先點 <strong>慢速</strong> 聽一遍，注意語調和停頓</div>
+      </div>
+      <div class="shadow-step">
+        <span class="shadow-step-num">02</span>
+        <div class="shadow-step-text">點播放，<strong>立刻跟著說</strong>，不要等結束才說</div>
+      </div>
+      <div class="shadow-step">
+        <span class="shadow-step-num">03</span>
+        <div class="shadow-step-text">用<strong>正常速度</strong>再練一遍，追求自然節奏</div>
+      </div>
+      <div class="shadow-step">
+        <span class="shadow-step-num">04</span>
+        <div class="shadow-step-text"><strong>不看文字</strong>練最後一遍，靠記憶說出來</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"Hi! I'm Wei, and I'm from Taiwan."</div>
+    <div class="shadow-phonetic">/haɪ/ /aɪm weɪ/ /ænd aɪm frəm taɪˈwɑːn/</div>
+    <div class="shadow-zh">嗨！我是 Wei，我來自台灣。</div>
+    <div class="shadow-tip">連音提示：I'm 要短促，from Taiwan 要流暢連接，Taiwan 重音在 -wan</div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speakSlow('Hi! I am Wei, and I am from Taiwan.')">慢速</button>
+      <button class="btn-s" onclick="speak('Hi! I am Wei, and I am from Taiwan.')">正常</button>
+      <button class="btn-s f" onclick="speakF('Hi! I am Sarah, and I am from Taiwan.')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"I'm here on vacation. It's my first time!"</div>
+    <div class="shadow-phonetic">/aɪm hɪr ɒn vəˈkeɪʃən/ /ɪts maɪ fɜːrst taɪm/</div>
+    <div class="shadow-zh">我來這裡度假。這是我第一次！</div>
+    <div class="shadow-tip">語氣提示："first time" 要帶點興奮感，語調上揚</div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speakSlow('I am here on vacation. It is my first time!')">慢速</button>
+      <button class="btn-s" onclick="speak('I am here on vacation. It is my first time!')">正常</button>
+      <button class="btn-s f" onclick="speakF('I am here on vacation. It is my first time!')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"Nice to meet you! What about you, where are you from?"</div>
+    <div class="shadow-phonetic">/naɪs tə miːt juː/ /wɒt əˈbaʊt juː wɛr ɑːr juː frəm/</div>
+    <div class="shadow-zh">很高興認識你！你呢，你從哪裡來？</div>
+    <div class="shadow-tip">技巧：說完 "Nice to meet you" 後用 "What about you?" 把話題拋回去，讓對話繼續！</div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speakSlow('Nice to meet you! What about you, where are you from?')">慢速</button>
+      <button class="btn-s" onclick="speak('Nice to meet you! What about you, where are you from?')">正常</button>
+      <button class="btn-s f" onclick="speakF('Nice to meet you! What about you, where are you from?')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"Sorry, could you say that again? I didn't quite catch that."</div>
+    <div class="shadow-phonetic">/ˈsɒri/ /kʊd juː seɪ ðæt əˈɡɛn/ /aɪ dɪdnt kwaɪt kætʃ ðæt/</div>
+    <div class="shadow-zh">抱歉，可以再說一次嗎？我沒聽清楚。</div>
+    <div class="shadow-tip">這句話非常重要！說出這句，比假裝聽懂更聰明。大聲練到反射性就能說出來。</div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speakSlow('Sorry, could you say that again? I did not quite catch that.')">慢速</button>
+      <button class="btn-s" onclick="speak('Sorry, could you say that again? I did not quite catch that.')">正常</button>
+      <button class="btn-s f" onclick="speakF('Sorry, could you say that again? I did not quite catch that.')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"It's amazing here! The food is great and people are so friendly."</div>
+    <div class="shadow-phonetic">/ɪts əˈmeɪzɪŋ hɪr/ /ðə fuːd ɪz ɡreɪt/ /ænd piːpl ɑːr soʊ ˈfrɛndli/</div>
+    <div class="shadow-zh">這裡太棒了！食物很好，人們很友善。</div>
+    <div class="shadow-tip">萬用的表達旅遊感受句型，把地方換掉就可以用在任何地方！</div>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speakSlow('It is amazing here! The food is great and people are so friendly.')">慢速</button>
+      <button class="btn-s" onclick="speak('It is amazing here! The food is great and people are so friendly.')">正常</button>
+      <button class="btn-s f" onclick="speakF('It is amazing here! The food is great and people are so friendly.')">Female</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PART 5: 簡短回應速查表 — 核心技巧 -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 05</span>
+    <h2 class="sec-title">簡短回應速查表</h2>
+    <span class="sec-sub">說不完整句子也沒關係的證明</span>
+  </div>
+
+  <p style="font-size:0.9rem;line-height:1.8;color:var(--ink-light);margin-bottom:1.5rem;">
+    英語母語者自己在日常對話中也大量使用簡短回應。<strong style="color:var(--ink)">完整句子不是必要的，有效傳遞訊息才是。</strong>
+  </p>
+
+  <table class="key-table">
+    <thead>
+      <tr>
+        <th>對方問</th>
+        <th>完整回應</th>
+        <th>簡短也可以</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>"Where are you from?"</td>
+        <td style="color:var(--ink-light)">"I'm from Taiwan, from Taipei."</td>
+        <td>"Taiwan." / "Taipei, Taiwan."</td>
+      </tr>
+      <tr>
+        <td>"What do you do?"</td>
+        <td style="color:var(--ink-light)">"I work as a software engineer."</td>
+        <td>"Engineer." / "Tech industry."</td>
+      </tr>
+      <tr>
+        <td>"How long are you staying?"</td>
+        <td style="color:var(--ink-light)">"I'm staying for about a week."</td>
+        <td>"A week." / "About five days."</td>
+      </tr>
+      <tr>
+        <td>"First time here?"</td>
+        <td style="color:var(--ink-light)">"Yes, it's my first time! Very excited."</td>
+        <td>"Yes! First time." / "Yeah!"</td>
+      </tr>
+      <tr>
+        <td>"How was your flight?"</td>
+        <td style="color:var(--ink-light)">"It was about three hours, not too bad."</td>
+        <td>"Good, thanks!" / "Long but fine."</td>
+      </tr>
+      <tr>
+        <td>"Nice to meet you!"</td>
+        <td style="color:var(--ink-light)">"It's so nice to meet you too!"</td>
+        <td>"You too!" / "Same!"</td>
+      </tr>
+      <tr>
+        <td>"Are you traveling alone?"</td>
+        <td style="color:var(--ink-light)">"Yes, I'm traveling solo this time."</td>
+        <td>"Yes, solo." / "Just me!"</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="background:var(--cream-dark);border-left:3px solid var(--red);padding:1rem 1.3rem;margin-top:1rem;">
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;">核心原則</p>
+    <p style="font-size:0.9rem;line-height:1.7;color:var(--ink-light);">
+      聽到問題 → 說出<strong style="color:var(--ink)">關鍵答案</strong> → 如果想延續對話，加 <strong style="color:var(--ink)">"What about you?"</strong>
+      把問題拋回去。這個三步驟可以撐過 90% 的初次見面對話。
+    </p>
+    <div class="btn-row" style="margin-top:0.8rem">
+      <button class="btn-s" onclick="speak('What about you?')">What about you?</button>
+      <button class="btn-s f" onclick="speakF('And you?')">And you?</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SUMMARY -->
+<!-- ============================================================ -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">今日總結</span>
+    <h2 class="sec-title">Day 01 完成</h2>
+  </div>
+  <div class="summary-grid">
+    <div>
+      <div class="sum-col-title">今天練了什麼</div>
+      <div class="sum-phrase-list">
+        <div class="sum-phrase">Hi! I'm [name]. / Nice to meet you!<span>打招呼，5個場景各練了一遍</span></div>
+        <div class="sum-phrase">I'm from Taiwan. / I'm here on vacation.<span>來自哪裡 + 旅遊目的</span></div>
+        <div class="sum-phrase">About [time]. / [destination]. First time!<span>簡短有效的回應方式</span></div>
+        <div class="sum-phrase">What about you? / And you?<span>把對話拋回去的關鍵句</span></div>
+        <div class="sum-phrase">Sorry, could you say that again?<span>聽不懂時的救命句</span></div>
+        <div class="sum-phrase">It's amazing! Great food, friendly people.<span>介紹台灣的萬用說法</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="sum-col-title">帶走的核心技巧</div>
+      <div class="tip-list">
+        <div class="tip-item" data-n="1">聽到關鍵字就行動：name → 說名字，from → 說地方，long/stay → 說天數</div>
+        <div class="tip-item" data-n="2">簡短回應是合法的。"Taiwan." 是一個完整且有效的答案。</div>
+        <div class="tip-item" data-n="3">說完你的答案後，加 "What about you?" 讓對話繼續，讓對方多說。</div>
+        <div class="tip-item" data-n="4">聽不懂？馬上說 "Sorry, could you say that again?" 不要沉默。</div>
+        <div class="tip-item" data-n="5">語氣和態度比文法更重要。微笑 + 說出任何英文 > 沉默。</div>
+      </div>
+      <a href="day2.html" style="display:inline-block;margin-top:1.5rem;font-family:'IBM Plex Mono',monospace;font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.75rem 1.5rem;background:var(--red);color:var(--cream);text-decoration:none;transition:background 0.18s;" onmouseover="this.style.background='var(--ink)'" onmouseout="this.style.background='var(--red)'">Day 02 — 數字與時間 &rarr;</a>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-body -->
+
+<div class="lesson-nav">
+  <a href="index.html" class="nav-btn">課程目錄</a>
+  <div class="nav-progress">DAY 01 / 20<br>5% Complete</div>
+  <a href="day2.html" class="nav-btn next">Day 02 &rarr;</a>
+</div>
+
+<script>
+// ============ TTS ENGINE ============
+let currentVoice = 'male';
+let currentRate = 0.75;
+let maleVoice = null;
+let femaleVoice = null;
+
+function loadVoices() {
+  const voices = speechSynthesis.getVoices();
+  const eng = voices.filter(v => v.lang.startsWith('en'));
+  maleVoice = eng.find(v => /david|male|guy|james|mark|tom|daniel/i.test(v.name))
+    || eng.find(v => v.lang === 'en-US') || eng[0];
+  femaleVoice = eng.find(v => /samantha|zira|susan|karen|alice|victoria|kate|emma/i.test(v.name))
+    || eng.find(v => v.lang === 'en-GB') || eng[1] || eng[0];
+}
+if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+loadVoices();
+
+function setVoice(g) {
+  currentVoice = g;
+  document.getElementById('btn-male').className = 'voice-btn' + (g==='male'?' active-m':'');
+  document.getElementById('btn-female').className = 'voice-btn' + (g==='female'?' active-f':'');
+}
+function setRate(r, btn) {
+  currentRate = r;
+  document.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function tt(text, gender, rate) {
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.voice = gender==='female' ? (femaleVoice||maleVoice) : (maleVoice||femaleVoice);
+  u.rate = rate || currentRate;
+  u.pitch = gender==='female' ? 1.1 : 0.9;
+  u.lang = 'en-US';
+  speechSynthesis.speak(u);
+}
+function speak(t) { tt(t, currentVoice, currentRate); }
+function speakF(t) { tt(t, 'female', currentRate); }
+function speakSlow(t) { tt(t, currentVoice, 0.6); }
+
+// Queue-based sequential dialogue playback
+function playSequence(lines) {
+  speechSynthesis.cancel();
+  let i = 0;
+  function next() {
+    if (i >= lines.length) return;
+    const line = lines[i++];
+    const u = new SpeechSynthesisUtterance(line.text);
+    const voices = speechSynthesis.getVoices();
+    const eng = voices.filter(v => v.lang.startsWith('en'));
+    if (line.gender === 'female') {
+      u.voice = femaleVoice || eng[0];
+      u.pitch = 1.1;
+    } else {
+      u.voice = maleVoice || eng[0];
+      u.pitch = 0.9;
+    }
+    u.rate = 0.88;
+    u.lang = 'en-US';
+    u.onend = () => { setTimeout(next, 400); };
+    speechSynthesis.speak(u);
+  }
+  next();
+}
+
+function playScenario1() {
+  playSequence([
+    {text:"Hi! I am Jake. Is anyone sitting here?", gender:'male'},
+    {text:"No, it is free. Go ahead!", gender:'female'},
+    {text:"Thanks! Where are you headed?", gender:'male'},
+    {text:"I am going to Tokyo. It is my first time there!", gender:'female'},
+    {text:"Oh really? I have been there three times! You will love it. I am Jake, by the way.", gender:'male'},
+    {text:"Nice to meet you, Jake! I am Wei. Do you have any recommendations?", gender:'female'},
+  ]);
+}
+function playScenario2() {
+  playSequence([
+    {text:"Hey! You just checked in, right? I am Emma.", gender:'female'},
+    {text:"Yeah! Hi Emma, I am Wei. Nice to meet you.", gender:'male'},
+    {text:"Where are you from?", gender:'female'},
+    {text:"Taiwan. Taipei, actually. And you?", gender:'male'},
+    {text:"I am from Australia, Melbourne. How long are you staying here?", gender:'female'},
+    {text:"About five days. Then I am going to Osaka.", gender:'male'},
+    {text:"Oh nice! I am headed to Osaka too! Maybe we can travel together.", gender:'female'},
+    {text:"That sounds great! I would love that.", gender:'male'},
+  ]);
+}
+function playScenario3() {
+  playSequence([
+    {text:"Hi there! Are you also doing the walking tour?", gender:'male'},
+    {text:"Yes! This is my first time on one of these. I am Wei.", gender:'female'},
+    {text:"I am David! I have done this tour twice, it is really good. Are you traveling solo?", gender:'male'},
+    {text:"Yeah, solo. It is a bit scary but exciting! What about you?", gender:'female'},
+    {text:"I am with my girlfriend. We are from Canada. How about you, where are you from?", gender:'male'},
+    {text:"I am from Taiwan. This is my first time in Europe!", gender:'female'},
+    {text:"First time in Europe? That is amazing! You are going to have the best time.", gender:'male'},
+  ]);
+}
+function playScenario4() {
+  playSequence([
+    {text:"Good morning. You must be Wei from the Taipei office?", gender:'female'},
+    {text:"Yes, that is right! You must be Michael. It is a pleasure to meet you.", gender:'male'},
+    {text:"The pleasure is mine! Is this your first visit to our office?", gender:'female'},
+    {text:"Yes, it is. Your office is very impressive!", gender:'male'},
+    {text:"Thank you! How was your flight? You came from Taipei, right?", gender:'female'},
+    {text:"Yes, it was about three hours. Not too bad! I arrived last night.", gender:'male'},
+    {text:"Great! Well, let us get started. Can I get you a coffee?", gender:'female'},
+    {text:"Yes please, that would be lovely. Thank you!", gender:'male'},
+  ]);
+}
+function playScenario5() {
+  playSequence([
+    {text:"This place is packed today, is not it?", gender:'female'},
+    {text:"Yeah, really busy! I have been waiting for twenty minutes.", gender:'male'},
+    {text:"Ha! Same. Are you from around here? I have not seen you before.", gender:'female'},
+    {text:"No, I am a tourist! Just visiting for a few days. I am from Taiwan.", gender:'male'},
+    {text:"Oh wow, Taiwan! I have always wanted to go there. What is it like?", gender:'female'},
+    {text:"It is amazing! The food is incredible and people are very friendly. You should visit!", gender:'male'},
+    {text:"Maybe I will! By the way, I am Lisa.", gender:'female'},
+    {text:"I am Wei! Nice to meet you, Lisa. Let me know if you ever visit Taiwan!", gender:'male'},
+  ]);
+}
+
+// ============ QUIZ ============
+function answerQ(btn, correct, fbId) {
+  const container = btn.closest('.listen-challenge');
+  container.querySelectorAll('.lc-option').forEach(b => b.disabled = true);
+  btn.classList.add(correct ? 'correct' : 'wrong');
+  if (correct) {
+    const fb = document.getElementById(fbId);
+    if (fb) { fb.classList.add('show'); }
+  }
+}
+
+// ============ RESPONSE SELECTION ============
+function selectResp(el, quality, speakText) {
+  const container = el.closest('.response-options');
+  // Reset
+  container.querySelectorAll('.resp-option').forEach(b => {
+    b.classList.remove('selected-good','selected-ok','selected-bad');
+  });
+  // Apply
+  if (quality === 'good') el.classList.add('selected-good');
+  else if (quality === 'ok') el.classList.add('selected-ok');
+  else el.classList.add('selected-bad');
+
+  // Show feedback for bad
+  const fbId = container.id ? container.id + '-fb' : null;
+  if (fbId) {
+    const fb = document.getElementById(fbId);
+    if (fb) fb.style.display = (quality === 'bad') ? 'block' : 'none';
+  }
+
+  // Speak the selected option
+  if (speakText && quality !== 'bad') {
+    setTimeout(() => tt(speakText, currentVoice, 0.85), 300);
+  }
+}
+</script>
+</body>
+</html>

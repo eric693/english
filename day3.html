@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 03 — 問路與交通 | English Daily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A18;
+      --red: #C0392B;
+      --ink-light: #4A4A42;
+      --cream-dark: #EAE4D6;
+      --rule: rgba(26,26,24,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--cream); color: var(--ink); font-family: 'Noto Serif TC', serif; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+
+    /* HEADER */
+    .site-header { border-bottom: 2px solid var(--ink); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .site-logo { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--ink); }
+    .site-logo span { color: var(--red); }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .nav-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--red); }
+
+    /* PROGRESS */
+    .progress-bar { height: 4px; background: var(--cream-dark); }
+    .progress-fill { height: 100%; width: 5%; background: var(--red); transition: width 0.5s; }
+
+    /* BANNER */
+    .day-banner { background: var(--ink); color: var(--cream); padding: 2.5rem 3rem; position: relative; overflow: hidden; }
+    .day-banner::after { content: 'DAY 01'; position: absolute; right: 2rem; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: clamp(4rem, 9vw, 7rem); font-weight: 300; opacity: 0.07; letter-spacing: -0.05em; pointer-events: none; }
+    .banner-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A09A; margin-bottom: 0.6rem; }
+    .banner-title { font-size: clamp(1.6rem, 3.5vw, 2.8rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.4rem; }
+    .banner-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.95rem; color: rgba(245,240,232,0.55); margin-bottom: 1.2rem; }
+    .banner-chips { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .chip { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.25rem 0.7rem; border: 1px solid rgba(245,240,232,0.25); color: rgba(245,240,232,0.65); }
+
+    /* VOICE BAR */
+    .voice-bar { background: var(--cream-dark); border-bottom: 1px solid var(--rule); padding: 0.65rem 3rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .voice-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+    .voice-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; padding: 0.2rem 0.75rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .voice-btn.vm { }
+    .voice-btn.active-m { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .voice-btn.active-f { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .rate-group { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+    .rate-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; padding: 0.18rem 0.55rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .rate-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+
+    /* MAIN LAYOUT */
+    .page-body { max-width: 1100px; margin: 0 auto; padding: 3rem; }
+
+    /* SECTION HEADERS */
+    .sec-hd { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 2rem; padding-bottom: 0.7rem; border-bottom: 2px solid var(--ink); }
+    .sec-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; color: var(--red); text-transform: uppercase; }
+    .sec-title { font-size: 1.25rem; font-weight: 700; }
+    .sec-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--ink-light); margin-left: auto; }
+    .lesson-sec { margin-bottom: 4.5rem; }
+
+    /* STRATEGY BOX */
+    .strategy-box { border: 1px solid var(--ink); padding: 1.5rem 1.8rem; margin-bottom: 2.5rem; position: relative; background: var(--cream-dark); }
+    .strategy-box::before { content: 'LEARNING STRATEGY'; position: absolute; top: -0.6rem; left: 1rem; background: var(--cream-dark); padding: 0 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.15em; color: var(--red); }
+    .strategy-text { font-size: 0.95rem; line-height: 1.85; color: var(--ink-light); }
+    .strategy-text strong { color: var(--ink); }
+
+    /* PHRASE BANK */
+    .phrase-bank { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 1.5rem; }
+    .phrase-card { background: var(--cream); padding: 1.1rem 1.3rem; }
+    .phrase-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; font-weight: 500; margin-bottom: 0.15rem; line-height: 1.4; }
+    .phrase-zh { font-size: 0.82rem; color: var(--ink-light); margin-bottom: 0.5rem; }
+    .phrase-note { font-size: 0.75rem; color: var(--red); font-style: italic; margin-bottom: 0.6rem; line-height: 1.4; }
+    .btn-row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .btn-s { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.22rem 0.6rem; border: 1px solid var(--ink); background: transparent; cursor: pointer; transition: all 0.18s; }
+    .btn-s:hover { background: var(--ink); color: var(--cream); }
+    .btn-s.f { border-color: var(--red); color: var(--red); }
+    .btn-s.f:hover { background: var(--red); color: var(--cream); }
+    .btn-s.slow { border-color: var(--ink-light); color: var(--ink-light); }
+    .btn-s.slow:hover { background: var(--ink-light); color: var(--cream); }
+
+    /* SCENARIO BLOCK */
+    .scenario-block { border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .scenario-hd { background: var(--ink); color: var(--cream); padding: 0.85rem 1.3rem; display: flex; justify-content: space-between; align-items: center; }
+    .scenario-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .scenario-situation { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: rgba(245,240,232,0.5); letter-spacing: 0.1em; }
+    .scenario-body { padding: 0; }
+
+    /* CONVERSATION */
+    .conv-section { border-bottom: 1px solid var(--rule); }
+    .conv-section:last-child { border-bottom: none; }
+    .conv-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); padding: 0.6rem 1.3rem; background: var(--cream-dark); border-bottom: 1px solid var(--rule); display: flex; justify-content: space-between; align-items: center; }
+    .conv-lines { padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 1rem; }
+    .conv-line { display: grid; grid-template-columns: 70px 1fr auto; gap: 0.8rem; align-items: start; }
+    .conv-speaker { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); padding-top: 0.15rem; font-weight: 500; }
+    .conv-speaker.you { color: var(--ink); }
+    .conv-content { }
+    .conv-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; line-height: 1.5; margin-bottom: 0.18rem; }
+    .conv-zh { font-size: 0.78rem; color: var(--ink-light); line-height: 1.4; }
+    .conv-listen-btn { }
+
+    /* LISTEN CHALLENGE */
+    .listen-challenge { background: var(--cream-dark); border: 1px solid var(--rule); padding: 1.3rem 1.5rem; margin: 0 1.3rem 1.3rem; }
+    .lc-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.8rem; }
+    .lc-question { font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
+    .lc-options { display: flex; flex-direction: column; gap: 0.45rem; }
+    .lc-option { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; padding: 0.6rem 0.9rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; text-align: left; transition: all 0.18s; line-height: 1.4; display: flex; align-items: center; gap: 0.7rem; }
+    .lc-option:hover { border-color: var(--ink); }
+    .lc-option .opt-label { color: var(--red); min-width: 18px; }
+    .lc-option.correct { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .lc-option.correct .opt-label { color: #E8A09A; }
+    .lc-option.wrong { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .lc-option.wrong .opt-label { color: rgba(245,240,232,0.7); }
+    .lc-feedback { margin-top: 0.8rem; font-size: 0.82rem; line-height: 1.6; display: none; padding: 0.8rem; border-left: 3px solid var(--ink); background: var(--cream); }
+    .lc-feedback.show { display: block; }
+
+    /* RESPONSE PRACTICE */
+    .response-practice { margin: 0 1.3rem 1.5rem; }
+    .rp-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+    .rp-title::before { content: ''; display: block; height: 1px; width: 30px; background: var(--rule); }
+    .rp-prompt { background: var(--cream-dark); border-left: 3px solid var(--red); padding: 0.9rem 1.2rem; margin-bottom: 1rem; }
+    .rp-prompt-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--red); text-transform: uppercase; margin-bottom: 0.35rem; }
+    .rp-prompt-text { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; line-height: 1.5; }
+    .rp-prompt-zh { font-size: 0.78rem; color: var(--ink-light); margin-top: 0.2rem; }
+    .response-options { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .resp-option { border: 1px solid var(--rule); padding: 0.85rem 1.1rem; cursor: pointer; transition: all 0.18s; display: grid; grid-template-columns: 1fr auto; gap: 1rem; align-items: center; background: var(--cream); }
+    .resp-option:hover { border-color: var(--ink); }
+    .resp-option.selected-good { border-color: var(--ink); background: var(--ink); color: var(--cream); }
+    .resp-option.selected-ok { border-color: var(--ink-light); background: var(--cream-dark); }
+    .resp-option.selected-bad { border-color: var(--red); opacity: 0.7; }
+    .resp-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; line-height: 1.4; }
+    .resp-zh { font-size: 0.75rem; color: var(--ink-light); margin-top: 0.15rem; line-height: 1.3; }
+    .resp-option.selected-good .resp-zh { color: rgba(245,240,232,0.65); }
+    .resp-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; padding: 0.18rem 0.55rem; border: 1px solid var(--rule); white-space: nowrap; opacity: 0; transition: opacity 0.2s; }
+    .resp-option.selected-good .resp-tag, .resp-option.selected-ok .resp-tag, .resp-option.selected-bad .resp-tag { opacity: 1; }
+    .resp-option.selected-good .resp-tag { border-color: rgba(245,240,232,0.3); color: rgba(245,240,232,0.7); }
+
+    /* SHADOW PRACTICE */
+    .shadow-box { border: 1px solid var(--rule); background: var(--cream-dark); padding: 1.3rem 1.5rem; margin-bottom: 1.5rem; }
+    .shadow-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 1.2rem; }
+    .shadow-steps { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.2rem; }
+    .shadow-step { display: grid; grid-template-columns: 28px 1fr; gap: 0.8rem; align-items: start; }
+    .shadow-step-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); font-weight: 500; padding-top: 0.1rem; }
+    .shadow-step-text { font-size: 0.88rem; line-height: 1.6; color: var(--ink-light); }
+    .shadow-step-text strong { color: var(--ink); }
+    .shadow-phrase { border: 1px solid var(--rule); background: var(--cream); padding: 1rem 1.2rem; margin-bottom: 0.6rem; }
+    .shadow-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.92rem; margin-bottom: 0.15rem; }
+    .shadow-phonetic { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; color: var(--red); margin-bottom: 0.35rem; }
+    .shadow-zh { font-size: 0.78rem; color: var(--ink-light); }
+    .shadow-tip { font-size: 0.78rem; color: var(--ink-light); background: var(--cream); border-left: 2px solid var(--rule); padding: 0.5rem 0.8rem; margin-top: 0.5rem; line-height: 1.5; }
+
+    /* KEY PHRASES TABLE */
+    .key-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85rem; }
+    .key-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: left; padding: 0.6rem 1rem; border-bottom: 2px solid var(--ink); color: var(--ink-light); }
+    .key-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+    .key-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--ink); }
+    .key-table td:nth-child(2) { color: var(--ink-light); font-size: 0.82rem; }
+    .key-table td:last-child { font-size: 0.75rem; color: var(--red); font-style: italic; }
+    .key-table tr:last-child td { border-bottom: none; }
+
+    /* KEYWORD RADAR */
+    .keyword-radar { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .kw-card { background: var(--cream); padding: 1rem 1.2rem; }
+    .kw-word { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .kw-zh { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.4rem; }
+    .kw-when { font-size: 0.72rem; color: var(--red); font-style: italic; line-height: 1.4; }
+
+    /* SUMMARY */
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: var(--cream-dark); border: 1px solid var(--rule); padding: 2rem; }
+    .sum-col-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 1.2rem; }
+    .sum-phrase-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .sum-phrase { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.5; border-bottom: 1px solid var(--rule); padding-bottom: 0.6rem; }
+    .sum-phrase:last-child { border-bottom: none; padding-bottom: 0; }
+    .sum-phrase span { color: var(--ink-light); font-size: 0.72rem; display: block; }
+    .tip-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .tip-item { font-size: 0.85rem; line-height: 1.65; color: var(--ink-light); display: grid; grid-template-columns: 20px 1fr; gap: 0.5rem; }
+    .tip-item::before { content: attr(data-n); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); padding-top: 0.15rem; }
+
+    /* NAV */
+    .lesson-nav { border-top: 2px solid var(--ink); padding: 1.8rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 1.4rem; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; transition: all 0.18s; }
+    .nav-btn:hover { background: var(--ink); color: var(--cream); }
+    .nav-btn.next { background: var(--red); border-color: var(--red); color: var(--cream); }
+    .nav-btn.next:hover { background: var(--ink); border-color: var(--ink); }
+    .nav-progress { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; color: var(--ink-light); letter-spacing: 0.1em; text-align: center; }
+
+    /* PLAY BAR */
+    .play-bar { display: flex; gap: 0.5rem; align-items: center; margin-top: 0.8rem; flex-wrap: wrap; }
+    .play-all-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.35rem 0.9rem; background: var(--ink); color: var(--cream); border: none; cursor: pointer; transition: background 0.18s; }
+    .play-all-btn:hover { background: var(--red); }
+
+    /* BADGES */
+    .badge { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.15rem 0.5rem; border: 1px solid var(--rule); color: var(--ink-light); }
+    .badge.red { border-color: var(--red); color: var(--red); }
+
+    @media (max-width: 768px) {
+      .site-header, .day-banner, .page-body, .lesson-nav, .voice-bar { padding-left: 1.4rem; padding-right: 1.4rem; }
+      .conv-line { grid-template-columns: 55px 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .phrase-bank { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .phrase-bank { grid-template-columns: 1fr; }
+      .lc-options { }
+    }
+  </style>
+  <style>
+    /* DAY3 extra */
+    .day-banner::after { content: 'DAY 03'; }
+    .progress-fill { width: 15%; }
+    .dir-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .dir-card { background: var(--cream); padding: 1rem 1.2rem; }
+    .dir-icon { font-size: 1.6rem; margin-bottom: 0.4rem; }
+    .dir-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; font-weight: 500; margin-bottom: 0.15rem; }
+    .dir-zh { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.5rem; }
+    .dir-example { font-size: 0.72rem; color: var(--red); font-style: italic; line-height: 1.4; margin-bottom: 0.5rem; }
+    .map-box { border: 1px solid var(--ink); background: var(--cream-dark); padding: 1.5rem; margin-bottom: 2rem; font-family: 'IBM Plex Mono', monospace; }
+    .map-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 1rem; }
+    .map-ascii { font-size: 0.78rem; line-height: 1.9; color: var(--ink); white-space: pre; overflow-x: auto; }
+    .transport-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .trans-card { background: var(--cream); padding: 1rem 1.2rem; }
+    .trans-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.88rem; font-weight: 500; margin-bottom: 0.15rem; }
+    .trans-zh { font-size: 0.78rem; color: var(--ink-light); margin-bottom: 0.35rem; }
+    .trans-phrases { font-size: 0.72rem; color: var(--red); line-height: 1.6; }
+    .key-table { width: 100%; border-collapse: collapse; margin-bottom: 1.5rem; font-size: 0.85rem; }
+    .key-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; text-align: left; padding: 0.6rem 1rem; border-bottom: 2px solid var(--ink); color: var(--ink-light); }
+    .key-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+    .key-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; }
+    .key-table td:nth-child(2) { color: var(--ink-light); font-size: 0.82rem; }
+    .key-table td:last-child { font-size: 0.75rem; color: var(--red); font-style: italic; }
+    .key-table tr:last-child td { border-bottom: none; }
+    .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; background: var(--cream-dark); border: 1px solid var(--rule); padding: 2rem; }
+    .sum-col-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); margin-bottom: 1.2rem; }
+    .sum-phrase-list { display: flex; flex-direction: column; gap: 0.6rem; }
+    .sum-phrase { font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.5; border-bottom: 1px solid var(--rule); padding-bottom: 0.6rem; }
+    .sum-phrase:last-child { border-bottom: none; padding-bottom: 0; }
+    .sum-phrase span { color: var(--ink-light); font-size: 0.72rem; display: block; font-family: 'Noto Serif TC', serif; }
+    .tip-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .tip-item { font-size: 0.85rem; line-height: 1.65; color: var(--ink-light); display: grid; grid-template-columns: 20px 1fr; gap: 0.5rem; }
+    .tip-item::before { content: attr(data-n); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--red); padding-top: 0.15rem; }
+    @media(max-width: 768px) {
+      .site-header, .day-banner, .page-body, .lesson-nav, .voice-bar { padding-left: 1.4rem; padding-right: 1.4rem; }
+      .conv-line { grid-template-columns: 55px 1fr; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="index.html" class="site-logo">English <span>Daily</span></a>
+  <nav class="header-nav">
+    <a href="day2.html" class="nav-link">Day 02</a>
+    <a href="index.html" class="nav-link">課程目錄</a>
+    <a href="day4.html" class="nav-link">Day 04</a>
+  </nav>
+</header>
+<div class="progress-bar"><div class="progress-fill"></div></div>
+
+<div class="day-banner">
+  <div class="banner-tag">Day 03 / 20 &mdash; Beginner &mdash; 入門基礎</div>
+  <h1 class="banner-title">問路與交通</h1>
+  <p class="banner-en">Asking Directions &amp; Getting Around &mdash; 5 Real Scenarios</p>
+  <div class="banner-chips">
+    <span class="chip">Directions</span>
+    <span class="chip">Transportation</span>
+    <span class="chip">Landmarks</span>
+    <span class="chip">5 Scenarios</span>
+  </div>
+</div>
+
+<div class="voice-bar">
+  <span class="voice-label">發音</span>
+  <button class="voice-btn vm active-m" id="btn-male" onclick="setVoice('male')">Male</button>
+  <button class="voice-btn vf" id="btn-female" onclick="setVoice('female')">Female</button>
+  <div class="rate-group">
+    <span class="voice-label">語速</span>
+    <button class="rate-btn active" onclick="setRate(0.75, this)">慢</button>
+    <button class="rate-btn" onclick="setRate(1.0, this)">正常</button>
+    <button class="rate-btn" onclick="setRate(1.25, this)">快</button>
+  </div>
+</div>
+
+<div class="page-body">
+
+<!-- ── LEARNING STRATEGY ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">今日策略</span>
+    <h2 class="sec-title">問路不需要聽懂每個字</h2>
+  </div>
+  <div class="strategy-box">
+    <p class="strategy-text">問路時最大的困難不是<strong>開口問</strong>，而是對方說了一大串之後你<strong>聽不懂</strong>。<br><br>
+    今天的核心策略：<strong>抓關鍵詞，不求全懂</strong>。聽到 "left"、"right"、"straight"、"block"、數字——把這些關鍵詞組合起來就夠了。其他的詞可以不理解。<br><br>
+    此外：問路時要<strong>分段問</strong>。對方說完後先說 "Got it!" 然後複誦你聽到的路線讓對方確認，不懂的部分馬上問 "Sorry, left or right?"。永遠不要假裝聽懂後走錯方向。</p>
+  </div>
+</div>
+
+<!-- ── PART 01: 方向詞彙 ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 01</span>
+    <h2 class="sec-title">方向詞彙：點擊聽發音</h2>
+    <span class="sec-sub">這 12 個詞聽懂就能問路</span>
+  </div>
+  <div class="dir-grid">
+    <div class="dir-card">
+      <div class="dir-icon">⬆</div>
+      <div class="dir-en">straight ahead</div>
+      <div class="dir-zh">直走</div>
+      <div class="dir-example">"Go straight ahead two blocks."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Go straight ahead.')">Male</button><button class="btn-s f" onclick="speakF('Go straight ahead.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">⬅</div>
+      <div class="dir-en">turn left</div>
+      <div class="dir-zh">左轉</div>
+      <div class="dir-example">"Turn left at the corner."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Turn left.')">Male</button><button class="btn-s f" onclick="speakF('Turn left at the corner.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">➡</div>
+      <div class="dir-en">turn right</div>
+      <div class="dir-zh">右轉</div>
+      <div class="dir-example">"Turn right at the traffic light."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Turn right.')">Male</button><button class="btn-s f" onclick="speakF('Turn right at the traffic light.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🔄</div>
+      <div class="dir-en">go back / turn around</div>
+      <div class="dir-zh">往回走 / 掉頭</div>
+      <div class="dir-example">"Go back to the main road."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Go back and turn around.')">Male</button><button class="btn-s f" onclick="speakF('You need to turn around.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🏢</div>
+      <div class="dir-en">block</div>
+      <div class="dir-zh">街區 / 街口</div>
+      <div class="dir-example">"Two blocks down on the left."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Two blocks down on the left.')">Male</button><button class="btn-s f" onclick="speakF('Three blocks from here.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🚦</div>
+      <div class="dir-en">traffic light</div>
+      <div class="dir-zh">紅綠燈</div>
+      <div class="dir-example">"Turn left at the traffic light."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('Turn left at the traffic light.')">Male</button><button class="btn-s f" onclick="speakF('At the traffic light, turn right.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🔀</div>
+      <div class="dir-en">corner / intersection</div>
+      <div class="dir-zh">轉角 / 十字路口</div>
+      <div class="dir-example">"It's on the corner."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('It is on the corner.')">Male</button><button class="btn-s f" onclick="speakF('Turn right at the intersection.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🚶</div>
+      <div class="dir-en">on foot / walking</div>
+      <div class="dir-zh">走路</div>
+      <div class="dir-example">"About ten minutes on foot."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('About ten minutes on foot.')">Male</button><button class="btn-s f" onclick="speakF('It is walkable from here.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">👁</div>
+      <div class="dir-en">you can't miss it</div>
+      <div class="dir-zh">你不會錯過的</div>
+      <div class="dir-example">"It's a big red building. You can't miss it."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('You can not miss it.')">Male</button><button class="btn-s f" onclick="speakF('It is right there. You can not miss it.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🏪</div>
+      <div class="dir-en">next to / beside</div>
+      <div class="dir-zh">在...旁邊</div>
+      <div class="dir-example">"It's next to the pharmacy."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('It is next to the pharmacy.')">Male</button><button class="btn-s f" onclick="speakF('Right beside the post office.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">🆚</div>
+      <div class="dir-en">across from / opposite</div>
+      <div class="dir-zh">在...對面</div>
+      <div class="dir-example">"It's across from the park."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('It is across from the park.')">Male</button><button class="btn-s f" onclick="speakF('Opposite the train station.')">Female</button></div>
+    </div>
+    <div class="dir-card">
+      <div class="dir-icon">📍</div>
+      <div class="dir-en">on the left/right</div>
+      <div class="dir-zh">在左/右手邊</div>
+      <div class="dir-example">"It's on the left, second building."</div>
+      <div class="btn-row"><button class="btn-s" onclick="speak('It is on your left.')">Male</button><button class="btn-s f" onclick="speakF('On the right side of the street.')">Female</button></div>
+    </div>
+  </div>
+
+  <div class="map-box">
+    <div class="map-label">地圖練習 — 看圖理解路線描述</div>
+    <div class="map-ascii">         [公園 Park]
+              |
+    ──────────┼──────── Main Street ──────────
+              |          |
+         [藥局]    [你在這裡 YOU]
+         Pharmacy        |
+              |          ↓ Go straight
+    ──────────┼──────── Oak Street ──────────
+              |          |
+         [超商]      [郵局 Post Office]
+         7-Eleven        |
+                    [目的地 ★]
+                    Train Station</div>
+  </div>
+  <div style="background: var(--cream-dark); border-left: 3px solid var(--red); padding: 1rem 1.3rem; margin-bottom: 1.5rem;">
+    <p style="font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem;">根據地圖，這條路線怎麼說？</p>
+    <p style="font-size: 0.9rem; line-height: 1.75; color: var(--ink-light);">從 YOU 出發到 Train Station：<br>
+    "Go <strong>straight</strong> one block to Oak Street, then turn <strong>right</strong>. The train station is on your <strong>left</strong>, next to the post office."</p>
+    <div class="btn-row" style="margin-top: 0.8rem;">
+      <button class="btn-s" onclick="speak('Go straight one block to Oak Street, then turn right. The train station is on your left, next to the post office.')">Male 聽</button>
+      <button class="btn-s f" onclick="speakF('Go straight one block to Oak Street, then turn right. The train station is on your left, next to the post office.')">Female 聽</button>
+      <button class="btn-s slow" onclick="speakSlow('Go straight one block to Oak Street, then turn right. The train station is on your left, next to the post office.')">慢速</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PART 02: 核心句型 ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 02</span>
+    <h2 class="sec-title">核心句型</h2>
+    <span class="sec-sub">問路 + 回應 + 確認</span>
+  </div>
+  <div class="phrase-bank">
+    <div class="phrase-card">
+      <div class="phrase-en">Excuse me, how do I get to [place]?</div>
+      <div class="phrase-zh">不好意思，請問怎麼去 [地點]？</div>
+      <div class="phrase-note">問路萬用開場句</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Excuse me, how do I get to the train station?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Excuse me, how do I get to the nearest subway?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Excuse me, how do I get to the train station?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Is it far from here?</div>
+      <div class="phrase-zh">從這裡遠嗎？</div>
+      <div class="phrase-note">問完路線後確認距離</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Is it far from here?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Is it far from here?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Is it far from here?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Can I walk there?</div>
+      <div class="phrase-zh">可以走路過去嗎？</div>
+      <div class="phrase-note">問是否需要搭車</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Can I walk there?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Can I walk there?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Can I walk there?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">So I go straight, then turn left?</div>
+      <div class="phrase-zh">所以我直走，然後左轉？</div>
+      <div class="phrase-note">複誦路線讓對方確認——最重要！</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('So I go straight, then turn left?')">Male</button>
+        <button class="btn-s f" onclick="speakF('So I go straight, then turn left?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('So I go straight, then turn left?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Sorry, left or right?</div>
+      <div class="phrase-zh">抱歉，左邊還是右邊？</div>
+      <div class="phrase-note">聽不清楚方向時，縮小到兩個選項</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Sorry, left or right?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Sorry, left or right?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Sorry, left or right?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">How many stops is it?</div>
+      <div class="phrase-zh">要幾站？</div>
+      <div class="phrase-note">搭地鐵/公車時問站數</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('How many stops is it?')">Male</button>
+        <button class="btn-s f" onclick="speakF('How many stops is it?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('How many stops is it?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Which line should I take?</div>
+      <div class="phrase-zh">我應該搭哪條線？</div>
+      <div class="phrase-note">搭地鐵時問路線</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Which line should I take?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Which line should I take?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Which line should I take?')">慢速</button>
+      </div>
+    </div>
+    <div class="phrase-card">
+      <div class="phrase-en">Do I need to transfer?</div>
+      <div class="phrase-zh">需要轉車嗎？</div>
+      <div class="phrase-note">確認是否需要換乘</div>
+      <div class="btn-row">
+        <button class="btn-s" onclick="speak('Do I need to transfer?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Do I need to transfer?')">Female</button>
+        <button class="btn-s slow" onclick="speakSlow('Do I need to transfer?')">慢速</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PART 03: 交通工具 ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 03</span>
+    <h2 class="sec-title">交通工具常用句</h2>
+    <span class="sec-sub">搭車必用詞彙與問句</span>
+  </div>
+  <div class="transport-grid">
+    <div class="trans-card">
+      <div class="trans-en">Subway / Metro / MRT</div>
+      <div class="trans-zh">地鐵 / 捷運</div>
+      <div class="trans-phrases">"Take the red line."<br>"Get off at City Hall station."<br>"Transfer at Central Park."</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('Take the red line and get off at City Hall station.')">Male</button>
+        <button class="btn-s f" onclick="speakF('Transfer at Central Park station.')">Female</button>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-en">Bus</div>
+      <div class="trans-zh">公車</div>
+      <div class="trans-phrases">"Take bus number 15."<br>"Get on at this stop."<br>"It's a twenty-minute ride."</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('Take bus number fifteen.')">Male</button>
+        <button class="btn-s f" onclick="speakF('Get on at this stop here.')">Female</button>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-en">Taxi / Cab / Uber</div>
+      <div class="trans-zh">計程車</div>
+      <div class="trans-phrases">"Can you take me to this address?"<br>"How long will it take?"<br>"Keep the change."</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('Can you take me to this address?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Keep the change, thank you!')">Female</button>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-en">Train</div>
+      <div class="trans-zh">火車 / 高鐵</div>
+      <div class="trans-phrases">"Which platform is it?"<br>"Is this the train to Taipei?"<br>"What time does it depart?"</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('Which platform is it?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Is this the train to Taipei?')">Female</button>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-en">Walking</div>
+      <div class="trans-zh">步行</div>
+      <div class="trans-phrases">"It's a five-minute walk."<br>"Is it walkable?"<br>"I'll walk, thanks."</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('It is a five minute walk from here.')">Male</button>
+        <button class="btn-s f" onclick="speakF('Is it walkable from the hotel?')">Female</button>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-en">Lost / Confused</div>
+      <div class="trans-zh">迷路了</div>
+      <div class="trans-phrases">"I think I'm lost."<br>"I can't find [place]."<br>"Can you show me on the map?"</div>
+      <div class="btn-row" style="margin-top: 0.6rem;">
+        <button class="btn-s" onclick="speak('I think I am lost. Can you help me?')">Male</button>
+        <button class="btn-s f" onclick="speakF('Can you show me on the map?')">Female</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PART 04: 5 SCENARIOS ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 04</span>
+    <h2 class="sec-title">場景訓練 &times; 5</h2>
+    <span class="sec-sub">問路 &rarr; 複誦確認 &rarr; 出發</span>
+  </div>
+
+  <!-- SCENARIO 01 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 01 &mdash; 街上問路：步行到火車站</span>
+      <span class="scenario-situation">Street / On Foot</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話 &mdash; 觀察分段複誦技巧</span>
+          <button class="play-all-btn" onclick="playS1()">&#9654; 播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Excuse me, how do I get to the train station?"</div>
+              <div class="conv-zh">不好意思，請問怎麼去火車站？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Excuse me, how do I get to the train station?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"Sure! Go straight for two blocks, then turn left at the traffic light."</div>
+              <div class="conv-zh">當然！直走兩個街口，在紅綠燈左轉。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Sure! Go straight for two blocks, then turn left at the traffic light.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"So, straight two blocks, then left at the traffic light?"</div>
+              <div class="conv-zh">所以，直走兩個街口，然後在紅綠燈左轉？（複誦確認）</div>
+            </div>
+            <button class="btn-s" onclick="speak('So, straight two blocks, then left at the traffic light?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"That's right. Then the station is on your right. You can't miss it."</div>
+              <div class="conv-zh">對。然後車站就在你右邊。你不會錯過的。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('That's right. Then the station is on your right. You can't miss it.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Is it far? Can I walk?"</div>
+              <div class="conv-zh">遠嗎？可以走路嗎？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Is it far? Can I walk?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"About five minutes on foot. Very close."</div>
+              <div class="conv-zh">走路大概五分鐘。非常近。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('About five minutes on foot. Very close.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Perfect, thank you so much!"</div>
+              <div class="conv-zh">太好了，非常感謝！</div>
+            </div>
+            <button class="btn-s" onclick="speak('Perfect, thank you so much!')">聽</button>
+          </div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 01</div>
+          <div class="lc-question">"你" 在對話中做了複誦確認。下列哪個說法最能解釋為什麼這樣做最好？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'q1f')"><span class="opt-label">A</span>讓對方知道你在聽</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'q1f')"><span class="opt-label">B</span>讓對方有機會確認或糾正你聽到的路線，走錯了再回來更麻煩</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q1f')"><span class="opt-label">C</span>這樣顯得更有禮貌</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q1f')"><span class="opt-label">D</span>買時間思考下一句話</button>
+          </div>
+          <div class="lc-feedback" id="q1f">正確！問路後立刻複誦，是最安全的確認方法。對方如果你說錯了會立刻更正，省下走錯路的時間。即使你聽懂了，複誦也讓溝通更確實。</div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">路人告訴你路線，你怎麼複誦確認？</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"Go straight, then turn right at the corner."</div>
+            <div class="rp-prompt-zh">直走，然後在轉角右轉。</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'So straight ahead, then right at the corner? Got it!')">
+              <div><div class="resp-en">"So straight ahead, then right at the corner? Got it!"</div><div class="resp-zh">所以直走，然後在轉角右轉？明白了！（複誦 + 確認）</div></div>
+              <span class="resp-tag">最佳</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Okay, thank you!')">
+              <div><div class="resp-en">"Okay, thank you!"</div><div class="resp-zh">好的，謝謝！（簡短，但沒複誦）</div></div>
+              <span class="resp-tag">OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Sorry, right or left at the corner?')">
+              <div><div class="resp-en">"Sorry, right or left at the corner?"</div><div class="resp-zh">抱歉，轉角是右轉還是左轉？（確認不確定的部分）</div></div>
+              <span class="resp-tag">有效</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'bad', '')">
+              <div><div class="resp-en">（點頭後直接走，心裡其實沒聽清楚）</div><div class="resp-zh">假裝聽懂 = 最常走錯路的原因</div></div>
+              <span class="resp-tag">需改進</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 02 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 02 &mdash; 搭地鐵：問要搭哪條線</span>
+      <span class="scenario-situation">Subway / MRT Station</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playS2()">&#9654; 播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Excuse me, which line goes to the airport?"</div>
+              <div class="conv-zh">不好意思，哪條線到機場？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Excuse me, which line goes to the airport?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"Take the blue line. It goes directly to the airport."</div>
+              <div class="conv-zh">搭藍線。直達機場。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Take the blue line. It goes directly to the airport.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Do I need to transfer?"</div>
+              <div class="conv-zh">需要轉車嗎？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Do I need to transfer?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"No transfers needed. It's about seven stops. Takes around thirty minutes."</div>
+              <div class="conv-zh">不用轉車。大概七站。約三十分鐘。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('No transfers needed. It's about seven stops. Takes around thirty minutes.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Seven stops, thirty minutes on the blue line — got it!"</div>
+              <div class="conv-zh">藍線，七站，三十分鐘——明白了！（複誦確認）</div>
+            </div>
+            <button class="btn-s" onclick="speak('Seven stops, thirty minutes on the blue line, got it!')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"That's right. The platform is downstairs, on your left."</div>
+              <div class="conv-zh">對。月台在樓下，你左手邊。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('That's right. The platform is downstairs, on your left.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Downstairs on the left. Thank you!"</div>
+              <div class="conv-zh">樓下左邊。謝謝！</div>
+            </div>
+            <button class="btn-s" onclick="speak('Downstairs on the left. Thank you!')">聽</button>
+          </div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 02</div>
+          <div class="lc-question">工作人員說了三個重要數字。以下哪一組是正確的？（先點播放鍵再作答）</div>
+          <div style="margin-bottom: 1rem;">
+            <button class="btn-s" onclick="speak('No transfers needed. It's about seven stops. Takes around thirty minutes.')">播放</button>
+            <button class="btn-s slow" onclick="speakSlow('No transfers needed. It's about seven stops. Takes around thirty minutes.')">慢速</button>
+          </div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'q2f')"><span class="opt-label">A</span>藍線，17站，13分鐘</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'q2f')"><span class="opt-label">B</span>藍線，7站，30分鐘</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q2f')"><span class="opt-label">C</span>紅線，7站，30分鐘</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q2f')"><span class="opt-label">D</span>藍線，17站，30分鐘</button>
+          </div>
+          <div class="lc-feedback" id="q2f">正確！"seven stops"（7站）+ "thirty minutes"（30分鐘）。注意 seven 和 seventeen 的差異，以及 thirty 和 thirteen 的差異——這就是昨天 Day 02 學的 -teen vs -ty！</div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">工作人員說了月台位置</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"The platform is downstairs, on your left."</div>
+            <div class="rp-prompt-zh">月台在樓下，你左手邊。</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Downstairs, on the left. Got it, thank you!')">
+              <div><div class="resp-en">"Downstairs, on the left. Got it!"</div><div class="resp-zh">樓下，左邊。明白了！（精簡複誦）</div></div>
+              <span class="resp-tag">最佳</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Thank you!')">
+              <div><div class="resp-en">"Thank you!"</div><div class="resp-zh">謝謝！</div></div>
+              <span class="resp-tag">OK</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Sorry, upstairs or downstairs?')">
+              <div><div class="resp-en">"Sorry, upstairs or downstairs?"</div><div class="resp-zh">抱歉，樓上還是樓下？</div></div>
+              <span class="resp-tag">有效</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 03 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 03 &mdash; 搭計程車：告訴司機目的地</span>
+      <span class="scenario-situation">Taxi / Ride-share</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playS3()">&#9654; 播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker">Driver</span>
+            <div class="conv-content">
+              <div class="conv-en">"Where to?"</div>
+              <div class="conv-zh">去哪裡？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Where to?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"The Grand Hotel, please. On Fifth Avenue."</div>
+              <div class="conv-zh">麻煩去大飯店，在第五大道。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('The Grand Hotel, please. On Fifth Avenue.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Driver</span>
+            <div class="conv-content">
+              <div class="conv-en">"Sure. Traffic is a bit heavy. Maybe twenty-five minutes."</div>
+              <div class="conv-zh">好的。路上有點堵車。可能要二十五分鐘。</div>
+            </div>
+            <button class="btn-s" onclick="speak('Sure. Traffic is a bit heavy. Maybe twenty-five minutes.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Twenty-five minutes — that's fine. How much will it be?"</div>
+              <div class="conv-zh">二十五分鐘——可以。大概多少錢？</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Twenty-five minutes, that's fine. How much will it be?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Driver</span>
+            <div class="conv-content">
+              <div class="conv-en">"Around fifteen to twenty dollars, depending on traffic."</div>
+              <div class="conv-zh">大概十五到二十美元，看交通情況。</div>
+            </div>
+            <button class="btn-s" onclick="speak('Around fifteen to twenty dollars, depending on traffic.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Okay, sounds good. Can you drop me at the main entrance?"</div>
+              <div class="conv-zh">好的，可以。可以讓我在正門下車嗎？</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Okay, sounds good. Can you drop me at the main entrance?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Driver</span>
+            <div class="conv-content">
+              <div class="conv-en">"No problem."</div>
+              <div class="conv-zh">沒問題。</div>
+            </div>
+            <button class="btn-s" onclick="speak('No problem.')">聽</button>
+          </div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 03</div>
+          <div class="lc-question">司機說 "Around fifteen to twenty dollars" — 如果你是乘客，哪個回應最好？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'q3f')"><span class="opt-label">A</span>"Fifteen? That's too expensive!" （15 太貴了！）</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'q3f')"><span class="opt-label">B</span>"Okay, so between fifteen and twenty. That's fine." （複誦金額範圍接受）</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q3f')"><span class="opt-label">C</span>"Okay." （只說 Okay，沒確認數字）</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q3f')"><span class="opt-label">D</span>"I don't understand." （說不懂）</button>
+          </div>
+          <div class="lc-feedback" id="q3f">正確！當對方說一個金額範圍，複誦整個範圍讓對方確認，同時表示你接受。這樣之後若實際費用超出範圍，你有充分理由確認。</div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">抵達目的地，司機說價格</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"That'll be eighteen dollars."</div>
+            <div class="rp-prompt-zh">車費是 18 美元。</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Here's twenty. Keep the change!')">
+              <div><div class="resp-en">"Here's twenty. Keep the change!"</div><div class="resp-zh">這是 20，找零不用了！（給小費的自然說法）</div></div>
+              <span class="resp-tag">自然</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Here you go. Eighteen, right?')">
+              <div><div class="resp-en">"Here you go. Eighteen, right?"</div><div class="resp-zh">給你，是 18 對嗎？（付錢前確認）</div></div>
+              <span class="resp-tag">穩妥</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Sorry, did you say eighteen or eighty?')">
+              <div><div class="resp-en">"Sorry, did you say eighteen or eighty?"</div><div class="resp-zh">抱歉，是 18 還是 80？（數字不確定）</div></div>
+              <span class="resp-tag">安全</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 04 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 04 &mdash; 在地鐵站搞不清楚方向</span>
+      <span class="scenario-situation">MRT Station / Lost</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playS4()">&#9654; 播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Excuse me, I think I'm on the wrong platform. I need to go to Central Station."</div>
+              <div class="conv-zh">不好意思，我想我走錯月台了。我需要去中央站。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Excuse me, I think I'm on the wrong platform. I need to go to Central Station.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"Which direction are you heading? North or south?"</div>
+              <div class="conv-zh">你要往哪個方向？北還是南？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Which direction are you heading? North or south?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm not sure. Central Station is in the city center."</div>
+              <div class="conv-zh">我不確定。中央站在市中心。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('I'm not sure. Central Station is in the city center.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"You need the northbound platform. Go up the stairs, turn left, and it's platform three."</div>
+              <div class="conv-zh">你需要往北月台。上樓梯，左轉，三號月台。</div>
+            </div>
+            <button class="btn-s" onclick="speak('You need the northbound platform. Go up the stairs, turn left, and it's platform three.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Up the stairs, left, platform three — correct?"</div>
+              <div class="conv-zh">上樓梯，左轉，三號月台——對嗎？</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Up the stairs, left, platform three, correct?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Staff</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes, exactly."</div>
+              <div class="conv-zh">是的，完全正確。</div>
+            </div>
+            <button class="btn-s" onclick="speak('Yes, exactly.')">聽</button>
+          </div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 04 — 聽路線</div>
+          <div class="lc-question">工作人員說了哪條路線？先點播放再作答：</div>
+          <div style="margin-bottom: 1rem;">
+            <button class="btn-s" onclick="speak('Go up the stairs, turn left, and it's platform three.')">播放</button>
+            <button class="btn-s slow" onclick="speakSlow('Go up the stairs, turn left, and it's platform three.')">慢速</button>
+          </div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'q4f')"><span class="opt-label">A</span>下樓梯 → 右轉 → 2號月台</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q4f')"><span class="opt-label">B</span>下樓梯 → 左轉 → 3號月台</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'q4f')"><span class="opt-label">C</span>上樓梯 → 左轉 → 3號月台</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q4f')"><span class="opt-label">D</span>上樓梯 → 右轉 → 3號月台</button>
+          </div>
+          <div class="lc-feedback" id="q4f">正確！"up the stairs"（上樓梯）+ "turn left"（左轉）+ "platform three"（3號月台）。問路的關鍵詞：up/down stairs + left/right + 數字。</div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">工作人員給了詳細指示，有一個步驟你沒聽清楚</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"Go upstairs, cross the bridge, and take the escalator down to platform two."</div>
+            <div class="rp-prompt-zh">上樓，過天橋，再搭電扶梯下去到二號月台。（你沒聽清楚"上"還是"下"電扶梯）</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'Sorry, the escalator goes up or down to platform two?')">
+              <div><div class="resp-en">"Sorry, the escalator goes up or down?"</div><div class="resp-zh">抱歉，電扶梯是往上還是往下？（縮小成兩個選項）</div></div>
+              <span class="resp-tag">最佳</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Could you say that again, please?')">
+              <div><div class="resp-en">"Could you say that again, please?"</div><div class="resp-zh">可以再說一遍嗎？</div></div>
+              <span class="resp-tag">有效</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Upstairs, then cross the bridge, then escalator to platform two — is that right?')">
+              <div><div class="resp-en">"Upstairs, bridge, escalator to platform two — right?"</div><div class="resp-zh">上樓，天橋，電扶梯到二號月台——對嗎？（複誦整條路線）</div></div>
+              <span class="resp-tag">完整</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCENARIO 05 -->
+  <div class="scenario-block">
+    <div class="scenario-hd">
+      <span class="scenario-title">Scenario 05 &mdash; 問附近有沒有超商/ATM</span>
+      <span class="scenario-situation">Street / Convenience</span>
+    </div>
+    <div class="scenario-body">
+      <div class="conv-section">
+        <div class="conv-label">
+          <span>完整對話</span>
+          <button class="play-all-btn" onclick="playS5()">&#9654; 播放對話</button>
+        </div>
+        <div class="conv-lines">
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Excuse me, is there a convenience store nearby?"</div>
+              <div class="conv-zh">不好意思，附近有超商嗎？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Excuse me, is there a convenience store nearby?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"Yes! There's one just around the corner, past the bank."</div>
+              <div class="conv-zh">有！就在轉角附近，過了銀行就到了。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Yes! There's one just around the corner, past the bank.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Around the corner, past the bank — how far is it?"</div>
+              <div class="conv-zh">轉角過了銀行——多遠？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Around the corner, past the bank. How far is it?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"Two minutes on foot. It's 24 hours, so no rush."</div>
+              <div class="conv-zh">走路兩分鐘。24小時的，不用急。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('Two minutes on foot. It's 24 hours, so no rush.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Is there also an ATM inside?"</div>
+              <div class="conv-zh">裡面也有 ATM 嗎？</div>
+            </div>
+            <button class="btn-s" onclick="speak('Is there also an ATM inside?')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker">Local</span>
+            <div class="conv-content">
+              <div class="conv-en">"I'm not sure about that. But there's definitely a bank right next to it."</div>
+              <div class="conv-zh">那個我不確定。但旁邊一定有銀行。</div>
+            </div>
+            <button class="btn-s f" onclick="speakF('I'm not sure about that. But there's definitely a bank right next to it.')">聽</button>
+          </div>
+          <div class="conv-line">
+            <span class="conv-speaker you">You</span>
+            <div class="conv-content">
+              <div class="conv-en">"Great! Corner, past the bank, two minutes. Thank you!"</div>
+              <div class="conv-zh">太好了！轉角，過銀行，兩分鐘。謝謝！</div>
+            </div>
+            <button class="btn-s" onclick="speak('Great! Corner, past the bank, two minutes. Thank you!')">聽</button>
+          </div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>聽力測驗</span></div>
+        <div class="listen-challenge">
+          <div class="lc-title">Question 05</div>
+          <div class="lc-question">路人說她 "not sure" 關於 ATM。你應該怎麼反應？</div>
+          <div class="lc-options">
+            <button class="lc-option" onclick="answerQ(this, false, 'q5f')"><span class="opt-label">A</span>繼續追問直到她確認</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q5f')"><span class="opt-label">B</span>很失望，什麼都沒說就走開</button>
+            <button class="lc-option" onclick="answerQ(this, true, 'q5f')"><span class="opt-label">C</span>接受這個答案，感謝她告訴你去便利商店的路，到現場再看看</button>
+            <button class="lc-option" onclick="answerQ(this, false, 'q5f')"><span class="opt-label">D</span>說 "But I really need an ATM!" 繼續要求她想辦法</button>
+          </div>
+          <div class="lc-feedback" id="q5f">正確！"I'm not sure" = 對方不知道，這是完全合理的答案。接受後說 "Got it, thanks anyway!" 或像對話中一樣感謝並繼續你的計劃。不要讓對方為不知道而尷尬。</div>
+        </div>
+      </div>
+      <div class="conv-section">
+        <div class="conv-label"><span>回應練習</span></div>
+        <div class="response-practice">
+          <div class="rp-title">你問路但對方說不知道</div>
+          <div class="rp-prompt">
+            <div class="rp-prompt-label">對方說</div>
+            <div class="rp-prompt-text">"Sorry, I'm not from around here."</div>
+            <div class="rp-prompt-zh">抱歉，我不是這裡的人。</div>
+          </div>
+          <div class="response-options">
+            <div class="resp-option" onclick="selectResp(this, 'good', 'No problem, thanks anyway! I'll ask someone else.')">
+              <div><div class="resp-en">"No problem, thanks anyway!"</div><div class="resp-zh">沒關係，還是謝謝！（最自然的回應）</div></div>
+              <span class="resp-tag">最自然</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'Oh, that's okay. Do you know if there's a map nearby?')">
+              <div><div class="resp-en">"Oh, okay. Is there a map or sign nearby?"</div><div class="resp-zh">哦，好的。附近有地圖或路標嗎？</div></div>
+              <span class="resp-tag">有創意</span>
+            </div>
+            <div class="resp-option" onclick="selectResp(this, 'ok', 'That's fine! Could you help me find someone who might know?')">
+              <div><div class="resp-en">"That's fine! Could you point me to a tourist info center?"</div><div class="resp-zh">沒關係！可以指引我去旅遊諮詢中心嗎？</div></div>
+              <span class="resp-tag">積極</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end Part 04 -->
+
+<!-- ── PART 05: SHADOW PRACTICE ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 05</span>
+    <h2 class="sec-title">跟讀訓練 Shadow Practice</h2>
+    <span class="sec-sub">問路句型，練到開口自動說出</span>
+  </div>
+  <div class="shadow-box">
+    <div class="shadow-title">今天的跟讀重點</div>
+    <div class="shadow-steps">
+      <div class="shadow-step">
+        <span class="shadow-step-num">01</span>
+        <div class="shadow-step-text">方向詞要清晰有力：<strong>LEFT</strong>（左）和 <strong>RIGHT</strong>（右）要讓對方清楚聽到</div>
+      </div>
+      <div class="shadow-step">
+        <span class="shadow-step-num">02</span>
+        <div class="shadow-step-text">複誦路線時用「清單式語調」，每個步驟之間稍作停頓</div>
+      </div>
+      <div class="shadow-step">
+        <span class="shadow-step-num">03</span>
+        <div class="shadow-step-text">問路句尾語調<strong>稍微上揚</strong>（疑問語氣），複誦確認句也可上揚表示在詢問確認</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"Excuse me, how do I get to the train station?"</div>
+    <div class="shadow-phonetic">/ɪkˈskjuːz miː/ /haʊ duː aɪ ɡɛt tə/ /ðə treɪn ˈsteɪʃən/</div>
+    <div class="shadow-zh">不好意思，請問怎麼去火車站？</div>
+    <div class="shadow-tip">"Excuse me" 是開口問路的萬用敲門磚。聲音要夠大讓對方聽到，語氣要友善。</div>
+    <div class="btn-row">
+      <button class="btn-s slow" onclick="speakSlow('Excuse me, how do I get to the train station?')">慢速</button>
+      <button class="btn-s" onclick="speak('Excuse me, how do I get to the train station?')">正常</button>
+      <button class="btn-s f" onclick="speakF('Excuse me, how do I get to the train station?')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"So straight two blocks, then left at the traffic light?"</div>
+    <div class="shadow-phonetic">/soʊ streɪt tuː blɒks/ /ðɛn lɛft æt ðə ˈtræfɪk laɪt/</div>
+    <div class="shadow-zh">所以直走兩個街口，然後在紅綠燈左轉？</div>
+    <div class="shadow-tip">複誦路線的黃金句型。語調在 "light?" 稍微上揚，讓對方知道你在確認。</div>
+    <div class="btn-row">
+      <button class="btn-s slow" onclick="speakSlow('So straight two blocks, then left at the traffic light?')">慢速</button>
+      <button class="btn-s" onclick="speak('So straight two blocks, then left at the traffic light?')">正常</button>
+      <button class="btn-s f" onclick="speakF('So straight two blocks, then left at the traffic light?')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"Sorry, left or right?"</div>
+    <div class="shadow-phonetic">/ˈsɒri/ /lɛft ɔːr raɪt/</div>
+    <div class="shadow-zh">抱歉，左邊還是右邊？</div>
+    <div class="shadow-tip">方向最容易聽錯。聽到不確定的轉向立刻問，比走錯路再回來省時間。</div>
+    <div class="btn-row">
+      <button class="btn-s slow" onclick="speakSlow('Sorry, left or right?')">慢速</button>
+      <button class="btn-s" onclick="speak('Sorry, left or right?')">正常</button>
+      <button class="btn-s f" onclick="speakF('Sorry, left or right?')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"I think I'm lost. Can you help me?"</div>
+    <div class="shadow-phonetic">/aɪ θɪŋk aɪm lɒst/ /kæn juː hɛlp miː/</div>
+    <div class="shadow-zh">我想我迷路了。可以幫我嗎？</div>
+    <div class="shadow-tip">誠實說出自己迷路了，對方通常很樂意幫忙。語氣不需要太慌張，平靜地說出來。</div>
+    <div class="btn-row">
+      <button class="btn-s slow" onclick="speakSlow('I think I am lost. Can you help me?')">慢速</button>
+      <button class="btn-s" onclick="speak('I think I am lost. Can you help me?')">正常</button>
+      <button class="btn-s f" onclick="speakF('I think I am lost. Can you help me?')">Female</button>
+    </div>
+  </div>
+
+  <div class="shadow-phrase">
+    <div class="shadow-en">"No problem, thanks anyway!"</div>
+    <div class="shadow-phonetic">/noʊ ˈprɒbləm/ /θæŋks ˈɛniweɪ/</div>
+    <div class="shadow-zh">沒關係，還是謝謝！</div>
+    <div class="shadow-tip">"Thanks anyway" = 雖然幫不上忙，還是謝謝你。當對方說不知道時的萬用回應，非常有禮貌。</div>
+    <div class="btn-row">
+      <button class="btn-s slow" onclick="speakSlow('No problem, thanks anyway!')">慢速</button>
+      <button class="btn-s" onclick="speak('No problem, thanks anyway!')">正常</button>
+      <button class="btn-s f" onclick="speakF('No problem, thanks anyway!')">Female</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── PART 06: 速查表 ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">Part 06</span>
+    <h2 class="sec-title">問路應對速查表</h2>
+    <span class="sec-sub">遇到各種問路情況的應對策略</span>
+  </div>
+  <table class="key-table">
+    <thead>
+      <tr><th>情況</th><th>說什麼</th><th>策略</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>完全不知道怎麼去</td><td>"Excuse me, how do I get to [place]?"</td><td>最基本的問路句</td></tr>
+      <tr><td>聽完路線，想確認</td><td>"So [複誦路線]... right?"</td><td>複誦讓對方確認</td></tr>
+      <tr><td>沒聽清楚方向</td><td>"Sorry, left or right?"</td><td>縮小到兩個選項</td></tr>
+      <tr><td>聽不懂整句</td><td>"Could you say that again, slowly?"</td><td>要求放慢重說</td></tr>
+      <tr><td>想知道距離</td><td>"Is it far? Can I walk?"</td><td>同時問兩個重要問題</td></tr>
+      <tr><td>對方說不知道</td><td>"No problem, thanks anyway!"</td><td>禮貌結束，再問別人</td></tr>
+    </tbody>
+  </table>
+  <div class="strategy-box">
+    <p class="strategy-text">
+      <strong>問路時的心態：</strong>大多數人看到迷路的外國人都很樂意幫忙。不需要說完美的句子——你只需要說出「地點名稱」或「一個關鍵詞」，加上友善的表情，通常就夠了。<br><br>
+      終極備用方案：<strong>打開 Google Maps</strong>，把螢幕轉給對方看，說 "Can you help me? I need to go here." 指著目的地。語言不是障礙的時候，這個方法幾乎萬無一失。
+    </p>
+  </div>
+</div>
+
+<!-- ── SUMMARY ── -->
+<div class="lesson-sec">
+  <div class="sec-hd">
+    <span class="sec-num">今日總結</span>
+    <h2 class="sec-title">Day 03 完成</h2>
+  </div>
+  <div class="summary-grid">
+    <div>
+      <div class="sum-col-title">今天練了什麼</div>
+      <div class="sum-phrase-list">
+        <div class="sum-phrase">12個方向詞彙
+          <span>straight / left / right / block / corner / traffic light / next to / across from...</span>
+        </div>
+        <div class="sum-phrase">Excuse me, how do I get to [place]?
+          <span>問路萬用開場句</span>
+        </div>
+        <div class="sum-phrase">So straight two blocks, then left?
+          <span>複誦路線確認句型</span>
+        </div>
+        <div class="sum-phrase">Sorry, left or right?
+          <span>縮小到兩個選項的確認句</span>
+        </div>
+        <div class="sum-phrase">I think I'm lost. Can you help me?
+          <span>迷路時的開口求助句</span>
+        </div>
+        <div class="sum-phrase">No problem, thanks anyway!
+          <span>對方說不知道時的優雅回應</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sum-col-title">帶走的核心技巧</div>
+      <div class="tip-list">
+        <div class="tip-item" data-n="1">問完路<strong>立刻複誦路線</strong>讓對方確認。這是避免走錯路最有效的方法。</div>
+        <div class="tip-item" data-n="2">方向聽不清楚時，說 <strong>"Sorry, left or right?"</strong> 縮小到兩個選項。</div>
+        <div class="tip-item" data-n="3">問路時抓關鍵詞就夠：<strong>left / right / straight / blocks / minutes</strong>。不需要聽懂每一個字。</div>
+        <div class="tip-item" data-n="4">搭地鐵問：<strong>Which line? How many stops? Do I need to transfer?</strong> 三個問題搞定地鐵路線。</div>
+        <div class="tip-item" data-n="5">對方說 "I'm not sure" 時，說 <strong>"Thanks anyway!"</strong> 然後找下一個人問。這非常正常，不要氣餒。</div>
+      </div>
+      <a href="day4.html" style="display: inline-block; margin-top: 1.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 1.5rem; background: var(--red); color: var(--cream); text-decoration: none;" onmouseover="this.style.background='var(--ink)'" onmouseout="this.style.background='var(--red)'">Day 04 &mdash; 點餐與咖啡廳 &rarr;</a>
+    </div>
+  </div>
+</div>
+
+</div><!-- end page-body -->
+
+<div class="lesson-nav">
+  <a href="day2.html" class="nav-btn">&larr; Day 02</a>
+  <div class="nav-progress">DAY 03 / 20<br>15% Complete</div>
+  <a href="day4.html" class="nav-btn next">Day 04 &rarr;</a>
+</div>
+
+<script>
+  let currentVoice = 'male';
+  let currentRate = 0.75;
+  let maleVoice = null;
+  let femaleVoice = null;
+
+  function loadVoices() {
+    const voices = speechSynthesis.getVoices();
+    const enVoices = voices.filter(v => v.lang.startsWith('en'));
+    maleVoice = enVoices.find(v => /david|male|guy|james|mark|tom|daniel/i.test(v.name))
+              || enVoices.find(v => v.lang === 'en-US')
+              || enVoices[0];
+    femaleVoice = enVoices.find(v => /samantha|zira|susan|karen|alice|victoria|kate|emma/i.test(v.name))
+               || enVoices.find(v => v.lang === 'en-GB')
+               || enVoices[1] || enVoices[0];
+  }
+  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  function setVoice(gender) {
+    currentVoice = gender;
+    document.getElementById('btn-male').className = 'voice-btn vm' + (gender === 'male' ? ' active-m' : '');
+    document.getElementById('btn-female').className = 'voice-btn vf' + (gender === 'female' ? ' active-f' : '');
+  }
+
+  function setRate(rate, btn) {
+    currentRate = rate;
+    document.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function tts(text, gender, rate) {
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.voice = gender === 'female' ? (femaleVoice || maleVoice) : (maleVoice || femaleVoice);
+    u.rate = rate || currentRate;
+    u.pitch = gender === 'female' ? 1.1 : 0.9;
+    u.lang = 'en-US';
+    speechSynthesis.speak(u);
+  }
+
+  function speak(t) { tts(t, currentVoice, currentRate); }
+  function speakF(t) { tts(t, 'female', currentRate); }
+  function speakSlow(t) { tts(t, currentVoice, 0.6); }
+
+  function playSequence(lines) {
+    speechSynthesis.cancel();
+    let i = 0;
+    function next() {
+      if (i >= lines.length) return;
+      const line = lines[i++];
+      const u = new SpeechSynthesisUtterance(line.text);
+      u.voice = line.gender === 'f' ? (femaleVoice || maleVoice) : (maleVoice || femaleVoice);
+      u.pitch = line.gender === 'f' ? 1.1 : 0.9;
+      u.rate = 0.88;
+      u.lang = 'en-US';
+      u.onend = () => setTimeout(next, 400);
+      speechSynthesis.speak(u);
+    }
+    next();
+  }
+
+  function playS1() {
+    playSequence([
+      {text: "Excuse me, how do I get to the train station?", gender: 'm'},
+      {text: "Sure! Go straight for two blocks, then turn left at the traffic light.", gender: 'f'},
+      {text: "So, straight two blocks, then left at the traffic light?", gender: 'm'},
+      {text: "That's right. Then the station is on your right. You can't miss it.", gender: 'f'},
+      {text: "Is it far? Can I walk?", gender: 'm'},
+      {text: "About five minutes on foot. Very close.", gender: 'f'},
+      {text: "Perfect, thank you so much!", gender: 'm'}
+    ]);
+  }
+
+  function playS2() {
+    playSequence([
+      {text: "Excuse me, which line goes to the airport?", gender: 'm'},
+      {text: "Take the blue line. It goes directly to the airport.", gender: 'f'},
+      {text: "Do I need to transfer?", gender: 'm'},
+      {text: "No transfers needed. It's about seven stops. Takes around thirty minutes.", gender: 'f'},
+      {text: "Seven stops, thirty minutes on the blue line, got it!", gender: 'm'},
+      {text: "That's right. The platform is downstairs, on your left.", gender: 'f'},
+      {text: "Downstairs on the left. Thank you!", gender: 'm'}
+    ]);
+  }
+
+  function playS3() {
+    playSequence([
+      {text: "Where to?", gender: 'm'},
+      {text: "The Grand Hotel, please. On Fifth Avenue.", gender: 'f'},
+      {text: "Sure. Traffic is a bit heavy. Maybe twenty-five minutes.", gender: 'm'},
+      {text: "Twenty-five minutes, that's fine. How much will it be?", gender: 'f'},
+      {text: "Around fifteen to twenty dollars, depending on traffic.", gender: 'm'},
+      {text: "Okay, sounds good. Can you drop me at the main entrance?", gender: 'f'},
+      {text: "No problem.", gender: 'm'}
+    ]);
+  }
+
+  function playS4() {
+    playSequence([
+      {text: "Excuse me, I think I'm on the wrong platform. I need to go to Central Station.", gender: 'f'},
+      {text: "Which direction are you heading? North or south?", gender: 'm'},
+      {text: "I'm not sure. Central Station is in the city center.", gender: 'f'},
+      {text: "You need the northbound platform. Go up the stairs, turn left, and it's platform three.", gender: 'm'},
+      {text: "Up the stairs, left, platform three, correct?", gender: 'f'},
+      {text: "Yes, exactly.", gender: 'm'}
+    ]);
+  }
+
+  function playS5() {
+    playSequence([
+      {text: "Excuse me, is there a convenience store nearby?", gender: 'm'},
+      {text: "Yes! There's one just around the corner, past the bank.", gender: 'f'},
+      {text: "Around the corner, past the bank. How far is it?", gender: 'm'},
+      {text: "Two minutes on foot. It's 24 hours, so no rush.", gender: 'f'},
+      {text: "Is there also an ATM inside?", gender: 'm'},
+      {text: "I'm not sure about that. But there's definitely a bank right next to it.", gender: 'f'},
+      {text: "Great! Corner, past the bank, two minutes. Thank you!", gender: 'm'}
+    ]);
+  }
+
+  function answerQ(btn, correct, feedbackId) {
+    const container = btn.closest('.listen-challenge');
+    container.querySelectorAll('.lc-option').forEach(b => b.disabled = true);
+    btn.classList.add(correct ? 'correct' : 'wrong');
+    const fb = document.getElementById(feedbackId);
+    if (fb) fb.classList.add('show');
+  }
+
+  function selectResp(el, quality, speakText) {
+    const container = el.closest('.response-options');
+    container.querySelectorAll('.resp-option').forEach(b => {
+      b.classList.remove('selected-good', 'selected-ok', 'selected-bad');
+    });
+    if (quality === 'good') el.classList.add('selected-good');
+    else if (quality === 'ok') el.classList.add('selected-ok');
+    else el.classList.add('selected-bad');
+    if (speakText && quality !== 'bad') {
+      setTimeout(() => tts(speakText, currentVoice, 0.88), 300);
+    }
+  }
+</script>
+</body>
+</html>

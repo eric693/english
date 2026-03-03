@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Daily — 20天英語完整課程</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A18;
+      --red: #C0392B;
+      --ink-light: #4A4A42;
+      --cream-dark: #EAE4D6;
+      --rule: rgba(26,26,24,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--ink);
+      font-family: 'Noto Serif TC', serif;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Header / Masthead */
+    header {
+      border-bottom: 2px solid var(--ink);
+      padding: 0 3rem;
+    }
+
+    .masthead-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0 0.6rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .masthead-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-light);
+      text-transform: uppercase;
+    }
+
+    .masthead-main {
+      text-align: center;
+      padding: 2rem 0 1.5rem;
+    }
+
+    .site-title {
+      font-family: 'Noto Serif TC', serif;
+      font-weight: 700;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      letter-spacing: -0.02em;
+      line-height: 1;
+      position: relative;
+      display: inline-block;
+    }
+
+    .site-title .accent {
+      color: var(--red);
+    }
+
+    .site-subtitle {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--ink-light);
+      margin-top: 0.8rem;
+      text-transform: uppercase;
+    }
+
+    .masthead-bottom {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      padding: 0.8rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .nav-item {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-item:hover { color: var(--red); }
+
+    /* Hero section */
+    .hero {
+      padding: 4rem 3rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-left {
+      border-right: 1px solid var(--rule);
+      padding-right: 4rem;
+    }
+
+    .section-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+
+    .hero-headline {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.25;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ink-light);
+      margin-bottom: 2rem;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+
+    .feature-item {
+      border: 1px solid var(--rule);
+      padding: 1rem;
+      background: var(--cream-dark);
+    }
+
+    .feature-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 300;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 0.3rem;
+    }
+
+    .feature-label {
+      font-size: 0.8rem;
+      color: var(--ink-light);
+      line-height: 1.4;
+    }
+
+    /* Curriculum Grid */
+    .curriculum {
+      padding: 3rem;
+    }
+
+    .curriculum-header {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--ink);
+    }
+
+    .curriculum-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+
+    .curriculum-desc {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-light);
+      letter-spacing: 0.1em;
+    }
+
+    .level-block {
+      margin-bottom: 3rem;
+    }
+
+    .level-header {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .level-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--ink);
+      padding: 0.3rem 0.8rem;
+      white-space: nowrap;
+    }
+
+    .level-badge.beginner { background: var(--ink); }
+    .level-badge.intermediate { background: var(--ink-light); }
+    .level-badge.advanced { background: var(--red); }
+
+    .level-rule {
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    .days-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .day-card {
+      background: var(--cream);
+      padding: 1.5rem;
+      text-decoration: none;
+      color: var(--ink);
+      display: block;
+      position: relative;
+      transition: background 0.2s;
+    }
+
+    .day-card:hover {
+      background: var(--ink);
+      color: var(--cream);
+    }
+
+    .day-card:hover .day-num,
+    .day-card:hover .day-topic-en,
+    .day-card:hover .day-skills,
+    .day-card:hover .day-meta { color: var(--cream-dark); }
+
+    .day-card:hover .day-title { color: var(--cream); }
+    .day-card:hover .day-accent { color: #E8A09A; }
+
+    .day-num {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      color: var(--ink-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .day-accent {
+      color: var(--red);
+      font-weight: 700;
+    }
+
+    .day-title {
+      font-size: 1.05rem;
+      font-weight: 600;
+      line-height: 1.3;
+      margin-bottom: 0.3rem;
+    }
+
+    .day-topic-en {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--ink-light);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    .day-skills {
+      font-size: 0.75rem;
+      color: var(--ink-light);
+      line-height: 1.5;
+    }
+
+    .day-meta {
+      margin-top: 1rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ink-light);
+      letter-spacing: 0.1em;
+    }
+
+    /* Skills legend */
+    .skills-legend {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      background: var(--cream-dark);
+      display: flex;
+      gap: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .legend-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--ink);
+    }
+
+    .legend-dot.red { background: var(--red); }
+
+    .legend-text {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 2px solid var(--ink);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ink-light);
+      letter-spacing: 0.1em;
+    }
+
+    /* CTA button */
+    .cta-btn {
+      display: inline-block;
+      background: var(--red);
+      color: var(--cream);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      text-decoration: none;
+      border: 2px solid var(--red);
+      transition: all 0.2s;
+    }
+
+    .cta-btn:hover {
+      background: transparent;
+      color: var(--red);
+    }
+
+    /* Skill pills */
+    .skill-pills {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+
+    .pill {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.5rem;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+    }
+
+    .pill.listen { border-color: var(--ink); color: var(--ink); }
+    .pill.speak { border-color: var(--red); color: var(--red); }
+    .pill.read { border-color: var(--ink-light); color: var(--ink-light); }
+    .pill.write { border-color: var(--ink-light); color: var(--ink-light); }
+
+    .day-card:hover .pill { border-color: rgba(245,240,232,0.4); color: rgba(245,240,232,0.7); }
+
+    @media (max-width: 768px) {
+      header, .hero, .curriculum, .skills-legend, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .hero { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-left { border-right: none; padding-right: 0; border-bottom: 1px solid var(--rule); padding-bottom: 2rem; }
+      .masthead-bottom { gap: 1.5rem; flex-wrap: wrap; }
+      .days-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .days-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="masthead-top">
+    <span class="masthead-label">Vol. 01 — Complete English Course</span>
+    <span class="masthead-label">20 Days / 4 Skills / Real Life</span>
+  </div>
+  <div class="masthead-main">
+    <h1 class="site-title">English <span class="accent">Daily</span></h1>
+    <p class="site-subtitle">20天完整英語課程 — 聽 · 說 · 讀 · 寫</p>
+  </div>
+  <nav class="masthead-bottom">
+    <a href="#curriculum" class="nav-item">課程總覽</a>
+    <a href="day1.html" class="nav-item">從第一天開始</a>
+    <a href="#features" class="nav-item">課程特色</a>
+    <a href="#skills" class="nav-item">四大技能</a>
+  </nav>
+</header>
+
+<section class="hero" id="features">
+  <div class="hero-left">
+    <p class="section-tag">About This Course</p>
+    <h2 class="hero-headline">從零開始，<br>到出門就能用。</h2>
+    <p class="hero-body">
+      本課程專為華語學習者設計，涵蓋出國旅遊、餐廳點餐、機場海關、購物問路、緊急求助等真實情境。每一天結合聽力練習、口語發音、閱讀理解與書寫練習，配備男女雙聲道朗讀功能，讓你在家就能練出地道英語。
+    </p>
+    <a href="day1.html" class="cta-btn">開始第一天</a>
+  </div>
+  <div class="hero-right" id="features">
+    <p class="section-tag">By The Numbers</p>
+    <div class="feature-grid">
+      <div class="feature-item">
+        <div class="feature-num">20</div>
+        <div class="feature-label">天完整課程<br>入門到進階</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">4</div>
+        <div class="feature-label">核心技能<br>聽說讀寫</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">2</div>
+        <div class="feature-label">發音聲線<br>男聲 + 女聲</div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-num">12+</div>
+        <div class="feature-label">生活情境<br>旅遊餐廳購物</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="skills-legend" id="skills">
+  <div class="legend-item">
+    <div class="legend-dot"></div>
+    <span class="legend-text">Listening — 聽力理解</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot red"></div>
+    <span class="legend-text">Speaking — 口語發音</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot"></div>
+    <span class="legend-text">Reading — 閱讀理解</span>
+  </div>
+  <div class="legend-item">
+    <div class="legend-dot"></div>
+    <span class="legend-text">Writing — 書寫練習</span>
+  </div>
+</div>
+
+<section class="curriculum" id="curriculum">
+  <div class="curriculum-header">
+    <h2 class="curriculum-title">課程目錄</h2>
+    <span class="curriculum-desc">20 DAYS — BEGINNER TO ADVANCED</span>
+  </div>
+
+  <!-- BEGINNER BLOCK -->
+  <div class="level-block">
+    <div class="level-header">
+      <span class="level-badge beginner">Beginner — 入門基礎</span>
+      <div class="level-rule"></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--ink-light)">Day 01–07</span>
+    </div>
+    <div class="days-grid">
+      <a href="day1.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">01</span></div>
+        <div class="day-title">自我介紹</div>
+        <div class="day-topic-en">Introductions & Greetings</div>
+        <div class="day-skills">你好、我叫、初次見面的完整表達，學會開口第一句話。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: SOCIAL / TRAVEL</div>
+      </a>
+      <a href="day2.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">02</span></div>
+        <div class="day-title">數字與時間</div>
+        <div class="day-topic-en">Numbers, Time & Dates</div>
+        <div class="day-skills">1到1000的數字、時間表達、日期與星期的說法。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: DAILY LIFE</div>
+      </a>
+      <a href="day3.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">03</span></div>
+        <div class="day-title">問路與方向</div>
+        <div class="day-topic-en">Directions & Navigation</div>
+        <div class="day-skills">向左向右直走、詢問地點、理解路人指引的完整對話。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+        </div>
+        <div class="day-meta">SITUATION: TRAVEL / OUTDOOR</div>
+      </a>
+      <a href="day4.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">04</span></div>
+        <div class="day-title">交通工具</div>
+        <div class="day-topic-en">Transportation</div>
+        <div class="day-skills">搭地鐵、叫計程車、買車票、問月台在哪裡。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: TRAVEL</div>
+      </a>
+      <a href="day5.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">05</span></div>
+        <div class="day-title">餐廳點餐</div>
+        <div class="day-topic-en">Ordering at a Restaurant</div>
+        <div class="day-skills">看菜單、點餐、詢問食材、結帳給小費的全套餐廳對話。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: RESTAURANT / FOOD</div>
+      </a>
+      <a href="day6.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">06</span></div>
+        <div class="day-title">購物殺價</div>
+        <div class="day-topic-en">Shopping & Bargaining</div>
+        <div class="day-skills">詢問價格、尺寸、顏色，試穿、討價還價、結帳付款。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+        </div>
+        <div class="day-meta">SITUATION: SHOPPING</div>
+      </a>
+      <a href="day7.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">07</span></div>
+        <div class="day-title">天氣與閒聊</div>
+        <div class="day-topic-en">Weather & Small Talk</div>
+        <div class="day-skills">英語閒聊文化、天氣表達、維持對話的萬用句型。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: SOCIAL</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- INTERMEDIATE BLOCK -->
+  <div class="level-block">
+    <div class="level-header">
+      <span class="level-badge intermediate">Intermediate — 中級應用</span>
+      <div class="level-rule"></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--ink-light)">Day 08–14</span>
+    </div>
+    <div class="days-grid">
+      <a href="day8.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">08</span></div>
+        <div class="day-title">機場入境</div>
+        <div class="day-topic-en">Airport & Immigration</div>
+        <div class="day-skills">辦理登機、托運行李、通過海關、入境審查的關鍵對話。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: AIRPORT / TRAVEL</div>
+      </a>
+      <a href="day9.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">09</span></div>
+        <div class="day-title">飯店入住</div>
+        <div class="day-topic-en">Hotel Check-in & Requests</div>
+        <div class="day-skills">訂房確認、入住退房、客房服務、投訴處理的實用句型。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: HOTEL / TRAVEL</div>
+      </a>
+      <a href="day10.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">10</span></div>
+        <div class="day-title">景點觀光</div>
+        <div class="day-topic-en">Sightseeing & Tourism</div>
+        <div class="day-skills">購買門票、詢問導覽、拍照請求、推薦景點的旅遊對話。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+        </div>
+        <div class="day-meta">SITUATION: TOURISM</div>
+      </a>
+      <a href="day11.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">11</span></div>
+        <div class="day-title">醫療緊急狀況</div>
+        <div class="day-topic-en">Medical & Emergencies</div>
+        <div class="day-skills">描述症狀、看醫生、取藥、緊急求助電話的必備表達。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: EMERGENCY</div>
+      </a>
+      <a href="day12.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">12</span></div>
+        <div class="day-title">咖啡廳文化</div>
+        <div class="day-topic-en">Cafe Culture & Drinks</div>
+        <div class="day-skills">星巴克點單術語、自訂飲品、咖啡廳聊天的地道說法。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+        </div>
+        <div class="day-meta">SITUATION: CAFE / SOCIAL</div>
+      </a>
+      <a href="day13.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">13</span></div>
+        <div class="day-title">電話與網路溝通</div>
+        <div class="day-topic-en">Phone Calls & Online Communication</div>
+        <div class="day-skills">打電話留言、視訊會議、收發電子郵件的正式非正式表達。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: COMMUNICATION</div>
+      </a>
+      <a href="day14.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">14</span></div>
+        <div class="day-title">戶外活動</div>
+        <div class="day-topic-en">Outdoor Activities & Sports</div>
+        <div class="day-skills">健行、衝浪、租借裝備、詢問天氣路況的戶外英語。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: OUTDOOR / TRAVEL</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ADVANCED BLOCK -->
+  <div class="level-block">
+    <div class="level-header">
+      <span class="level-badge advanced">Advanced — 進階流利</span>
+      <div class="level-rule"></div>
+      <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;color:var(--ink-light)">Day 15–20</span>
+    </div>
+    <div class="days-grid">
+      <a href="day15.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">15</span></div>
+        <div class="day-title">工作與職場</div>
+        <div class="day-topic-en">Work & Professional Settings</div>
+        <div class="day-skills">面試英語、開會表達意見、寫專業Email的職場必備技能。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: WORKPLACE</div>
+      </a>
+      <a href="day16.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">16</span></div>
+        <div class="day-title">文化差異與禮儀</div>
+        <div class="day-topic-en">Culture & Social Etiquette</div>
+        <div class="day-skills">英美文化差異、餐桌禮儀、拒絕請求的有禮說法。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+        </div>
+        <div class="day-meta">SITUATION: CULTURE</div>
+      </a>
+      <a href="day17.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">17</span></div>
+        <div class="day-title">表達意見與辯論</div>
+        <div class="day-topic-en">Opinions, Debates & Discussions</div>
+        <div class="day-skills">表達同意不同意、提出觀點、說服他人的進階口語技巧。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: ACADEMIC / SOCIAL</div>
+      </a>
+      <a href="day18.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">18</span></div>
+        <div class="day-title">新聞與時事閱讀</div>
+        <div class="day-topic-en">News, Media & Current Events</div>
+        <div class="day-skills">讀英語新聞、理解報導語言、討論時事的高階閱讀策略。</div>
+        <div class="skill-pills">
+          <span class="pill read">READ</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: MEDIA</div>
+      </a>
+      <a href="day19.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">19</span></div>
+        <div class="day-title">故事敘述技巧</div>
+        <div class="day-topic-en">Storytelling & Narratives</div>
+        <div class="day-skills">用英語說一個精彩故事，時態掌控、情緒渲染、結尾技巧。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: SOCIAL / CREATIVE</div>
+      </a>
+      <a href="day20.html" class="day-card">
+        <div class="day-num">DAY <span class="day-accent">20</span></div>
+        <div class="day-title">綜合情境模擬</div>
+        <div class="day-topic-en">Final Review & Real-life Simulation</div>
+        <div class="day-skills">20天學習總結，完整旅程情境模擬對話，檢驗你的學習成果。</div>
+        <div class="skill-pills">
+          <span class="pill speak">SPEAK</span>
+          <span class="pill listen">LISTEN</span>
+          <span class="pill read">READ</span>
+          <span class="pill write">WRITE</span>
+        </div>
+        <div class="day-meta">SITUATION: ALL SCENARIOS</div>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<footer>
+  <div class="footer-brand">English <span style="color:var(--red)">Daily</span></div>
+  <div class="footer-note">BROWSER TTS · MALE + FEMALE VOICES · NO INSTALL REQUIRED</div>
+</footer>
+
+</body>
+</html>
