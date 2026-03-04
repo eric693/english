@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 07 — Weather & Small Talk | English Daily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A18;
+      --red: #C0392B;
+      --ink-light: #4A4A42;
+      --cream-dark: #EAE4D6;
+      --rule: rgba(26,26,24,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--cream); color: var(--ink); font-family: 'Noto Serif TC', serif; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+    .site-header { border-bottom: 2px solid var(--ink); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .site-logo { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--ink); }
+    .site-logo span { color: var(--red); }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .nav-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--red); }
+    .day-banner { background: var(--ink); color: var(--cream); padding: 3rem; position: relative; overflow: hidden; }
+    .day-banner::after { content: 'DAY 07'; position: absolute; right: 3rem; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: clamp(4rem, 10vw, 8rem); font-weight: 300; opacity: 0.08; letter-spacing: -0.05em; line-height: 1; pointer-events: none; }
+    .banner-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A09A; margin-bottom: 0.8rem; }
+    .banner-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+    .banner-en { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; color: rgba(245,240,232,0.6); margin-bottom: 1.5rem; }
+    .banner-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .meta-chip { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid rgba(245,240,232,0.3); color: rgba(245,240,232,0.7); }
+    .progress-bar { height: 3px; background: var(--cream-dark); }
+    .progress-fill { height: 100%; background: var(--red); }
+    .lesson-body { max-width: 1100px; margin: 0 auto; padding: 3rem; }
+    .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--ink); }
+    .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--red); text-transform: uppercase; }
+    .section-title { font-size: 1.3rem; font-weight: 700; }
+    .section-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--ink-light); }
+    .lesson-section { margin-bottom: 4rem; }
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .vocab-card { background: var(--cream); padding: 1.2rem; }
+    .vocab-en { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .vocab-phonetic { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--red); margin-bottom: 0.4rem; }
+    .vocab-zh { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 0.8rem; }
+    .vocab-example { font-size: 0.8rem; font-style: italic; color: var(--ink-light); line-height: 1.5; }
+    .tts-controls { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+    .btn-tts { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; transition: all 0.2s; }
+    .btn-tts:hover { background: var(--ink); color: var(--cream); }
+    .btn-tts.female { border-color: var(--red); color: var(--red); }
+    .btn-tts.female:hover { background: var(--red); color: var(--cream); }
+    .dialogue-box { border: 1px solid var(--rule); margin-bottom: 1.5rem; }
+    .dialogue-header { background: var(--cream-dark); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); }
+    .dialogue-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .dialogue-body { padding: 1.5rem; }
+    .line { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; margin-bottom: 1.2rem; align-items: start; }
+    .line:last-child { margin-bottom: 0; }
+    .speaker { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); padding-top: 0.1rem; }
+    .speech { font-size: 0.95rem; line-height: 1.6; }
+    .speech .en { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; display: block; margin-bottom: 0.2rem; }
+    .speech .zh { font-size: 0.8rem; color: var(--ink-light); display: block; }
+    .passage { background: var(--cream-dark); border: 1px solid var(--rule); padding: 2rem; margin-bottom: 1.5rem; }
+    .passage-text { font-size: 1rem; line-height: 2; margin-bottom: 1rem; }
+    .grammar-box { border: 1px solid var(--ink); padding: 1.5rem; margin-bottom: 1.5rem; position: relative; }
+    .grammar-box::before { content: 'GRAMMAR NOTE'; position: absolute; top: -0.6rem; left: 1rem; background: var(--cream); padding: 0 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--ink); }
+    .grammar-pattern { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--red); margin-bottom: 1rem; padding: 0.8rem; background: var(--cream-dark); border-left: 3px solid var(--red); line-height: 1.6; }
+    .grammar-note-text { font-size: 0.9rem; line-height: 1.8; color: var(--ink-light); }
+    .listen-card { border: 1px solid var(--rule); padding: 1.5rem; margin-bottom: 1rem; background: var(--cream); }
+    .listen-question { font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+    .option-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; padding: 0.7rem 1rem; background: transparent; border: 1px solid var(--rule); color: var(--ink); cursor: pointer; text-align: left; transition: all 0.2s; line-height: 1.4; }
+    .option-btn:hover { border-color: var(--ink); }
+    .option-btn.correct { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .option-btn.wrong { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .writing-prompt { border: 1px solid var(--rule); padding: 1.5rem; margin-bottom: 1rem; }
+    .prompt-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.8rem; }
+    .prompt-text { font-size: 1rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .writing-area { width: 100%; min-height: 100px; background: var(--cream); border: 1px solid var(--rule); border-top: 2px solid var(--ink); padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--ink); resize: vertical; outline: none; line-height: 1.8; transition: border-color 0.2s; }
+    .writing-area:focus { border-top-color: var(--red); }
+    .writing-area::placeholder { color: rgba(26,26,24,0.3); }
+    .btn-check { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--ink); color: var(--cream); border: none; cursor: pointer; margin-top: 0.8rem; transition: background 0.2s; }
+    .btn-check:hover { background: var(--red); }
+    .feedback-box { padding: 1rem; margin-top: 0.8rem; font-size: 0.85rem; line-height: 1.6; display: none; border-left: 3px solid var(--ink); background: var(--cream-dark); }
+    .feedback-box.show { display: block; }
+    .voice-bar { background: var(--cream-dark); border-bottom: 1px solid var(--rule); padding: 0.7rem 3rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .voice-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+    .voice-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.25rem 0.8rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.2s; }
+    .voice-btn.active-m { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .voice-btn.active-f { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .voice-rate { display: flex; align-items: center; gap: 0.8rem; margin-left: auto; }
+    .rate-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; padding: 0.2rem 0.6rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.2s; }
+    .rate-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .lesson-nav { border-top: 2px solid var(--ink); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.8rem 1.5rem; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; transition: all 0.2s; }
+    .nav-btn:hover { background: var(--ink); color: var(--cream); }
+    .nav-btn.next { background: var(--red); border-color: var(--red); color: var(--cream); }
+    .nav-btn.next:hover { background: var(--ink); border-color: var(--ink); }
+    .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+    .nav-progress { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--ink-light); letter-spacing: 0.1em; }
+    @media (max-width: 768px) {
+      .site-header, .day-banner, .lesson-body, .lesson-nav, .voice-bar { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .options-grid { grid-template-columns: 1fr; }
+      .vocab-grid { grid-template-columns: 1fr 1fr; }
+      .line { grid-template-columns: 60px 1fr; }
+    }
+    @media (max-width: 480px) { .vocab-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a href="index.html" class="site-logo">English <span>Daily</span></a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-link">課程總覽</a>
+    <a href="day6.html" class="nav-link">上一課</a>
+    <a href="day8.html" class="nav-link">下一課</a>
+  </nav>
+</header>
+<div class="progress-bar"><div class="progress-fill" style="width:35%"></div></div>
+<div class="day-banner">
+  <div class="banner-tag">Day 07 / 20 — Beginner</div>
+  <h1 class="banner-title">天氣與閒聊</h1>
+  <p class="banner-en">Weather & Small Talk</p>
+  <div class="banner-meta">
+    <span class="meta-chip">LISTEN</span>
+    <span class="meta-chip">SPEAK</span>
+    <span class="meta-chip">READ</span>
+    <span class="meta-chip">WRITE</span>
+    <span class="meta-chip">SITUATION: SOCIAL</span>
+  </div>
+</div>
+<div class="voice-bar">
+  <span class="voice-label">發音聲線</span>
+  <button class="voice-btn active-m" id="btn-male" onclick="setVoice('male')">Male — 男聲</button>
+  <button class="voice-btn" id="btn-female" onclick="setVoice('female')">Female — 女聲</button>
+  <div class="voice-rate">
+    <span class="voice-label">語速</span>
+    <button class="rate-btn active" onclick="setRate(0.8, this)">慢</button>
+    <button class="rate-btn" onclick="setRate(1.0, this)">正常</button>
+    <button class="rate-btn" onclick="setRate(1.3, this)">快</button>
+  </div>
+</div>
+<div class="lesson-body">
+  <!-- VOCABULARY -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 01</span>
+      <h2 class="section-title">核心詞彙</h2>
+      <span class="section-en">Key Vocabulary</span>
+    </div>
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-en">What's the weather like?</div>
+        <div class="vocab-phonetic">/wɒts ðə ˈwɛðər laɪk/</div>
+        <div class="vocab-zh">天氣怎麼樣？</div>
+        <div class="vocab-example">What's the weather like in Tokyo in spring?</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('What\'s the weather like in Tokyo in spring?')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('What\'s the weather like in Tokyo in spring?')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">It's sunny / cloudy / rainy.</div>
+        <div class="vocab-phonetic">/ɪts ˈsʌni/</div>
+        <div class="vocab-zh">天氣晴朗/陰天/下雨</div>
+        <div class="vocab-example">It's sunny today but it might rain later.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('It\'s sunny today but it might rain later.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('It\'s sunny today but it might rain later.')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">How have you been?</div>
+        <div class="vocab-phonetic">/haʊ hæv juː bɪn/</div>
+        <div class="vocab-zh">你最近怎麼樣？</div>
+        <div class="vocab-example">Hey! How have you been? Long time no see!</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('Hey! How have you been? Long time no see!')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('Hey! How have you been? Long time no see!')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">Not bad, thanks!</div>
+        <div class="vocab-phonetic">/nɒt bæd θæŋks/</div>
+        <div class="vocab-zh">還不錯，謝謝！</div>
+        <div class="vocab-example">How are you? — Not bad, thanks! Busy as usual.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('How are you? — Not bad, thanks! Busy as usual.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('How are you? — Not bad, thanks! Busy as usual.')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">What have you been up to?</div>
+        <div class="vocab-phonetic">/wɒt hæv juː bɪn ʌp tuː/</div>
+        <div class="vocab-zh">你最近在忙什麼？</div>
+        <div class="vocab-example">It's been a while! What have you been up to?</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('It\'s been a while! What have you been up to?')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('It\'s been a while! What have you been up to?')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">I've been...</div>
+        <div class="vocab-phonetic">/aɪv bɪn/</div>
+        <div class="vocab-zh">我一直在…</div>
+        <div class="vocab-example">I've been traveling a lot lately.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('I\'ve been traveling a lot lately.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('I\'ve been traveling a lot lately.')">Female</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- LISTENING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 02</span>
+      <h2 class="section-title">聽力練習</h2>
+      <span class="section-en">Listening & Dialogue</span>
+    </div>
+    <div class="dialogue-box">
+      <div class="dialogue-header">
+        <span class="dialogue-title">Dialogue — 天氣與閒聊 / Weather & Small Talk</span>
+        <button class="btn-tts" onclick="playDialogue()">播放對話</button>
+      </div>
+      <div class="dialogue-body">
+        <div class="line">
+          <span class="speaker">Mark</span>
+          <div class="speech">
+            <span class="en">"Hey Sarah! Long time no see! How have you been?"</span>
+            <span class="zh">嘿 Sarah！好久不見！你最近怎麼樣？</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Sarah</span>
+          <div class="speech">
+            <span class="en">"Mark! I've been great, thanks! What about you?"</span>
+            <span class="zh">Mark！我最近很好，謝謝！你呢？</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Mark</span>
+          <div class="speech">
+            <span class="en">"Not bad! Busy with work. Terrible weather today, isn't it?"</span>
+            <span class="zh">還不錯！工作很忙。今天天氣真糟，對吧？</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Sarah</span>
+          <div class="speech">
+            <span class="en">"I know! It's been raining all week. I hope it clears up soon."</span>
+            <span class="zh">是啊！整個星期都在下雨。希望快放晴。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Mark</span>
+          <div class="speech">
+            <span class="en">"Exactly. Hey, what have you been up to lately?"</span>
+            <span class="zh">就是說啊。嘿，你最近在忙什麼？</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Sarah</span>
+          <div class="speech">
+            <span class="en">"I've been taking online English classes! It's been really fun."</span>
+            <span class="zh">我一直在上線上英語課！很有趣。</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--ink-light);margin-bottom:1.5rem;text-transform:uppercase;">— 聽完對話後，回答以下問題 —</p>
+    <div class="listen-card">
+      <div class="listen-question">1. Why is weather a popular small talk topic?</div>
+      <div class="options-grid"><button class="option-btn" onclick="checkAnswer(this, false)">It's interesting</button>
+<button class="option-btn" onclick="checkAnswer(this, true)">Everyone experiences it and it's not controversial</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">It changes every day</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">English people love rain</button>
+</div>
+    </div>
+<div class="listen-card">
+      <div class="listen-question">2. What does 'Long time no see' mean?</div>
+      <div class="options-grid"><button class="option-btn" onclick="checkAnswer(this, false)">Nice to meet you</button>
+<button class="option-btn" onclick="checkAnswer(this, true)">好久不見</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">再見</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">How are you</button>
+</div>
+    </div>
+
+  </div>
+  <!-- SPEAKING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 03</span>
+      <h2 class="section-title">口語發音</h2>
+      <span class="section-en">Speaking Practice</span>
+    </div>
+    <p style="font-size:0.9rem;color:var(--ink-light);line-height:1.7;margin-bottom:2rem;">先聆聽示範，再跟著大聲說出來。注意語調與連音。</p>
+    <div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">What's the weather like?</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">天氣怎麼樣？</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/wɒts ðə ˈwɛðər laɪk/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('What\'s the weather like in Tokyo in spring?')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('What\'s the weather like in Tokyo in spring?')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('What\'s the weather like in Tokyo in spring?')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">It's sunny / cloudy / rainy.</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">天氣晴朗/陰天/下雨</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/ɪts ˈsʌni/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('It\'s sunny today but it might rain later.')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('It\'s sunny today but it might rain later.')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('It\'s sunny today but it might rain later.')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">How have you been?</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">你最近怎麼樣？</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/haʊ hæv juː bɪn/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('Hey! How have you been? Long time no see!')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('Hey! How have you been? Long time no see!')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('Hey! How have you been? Long time no see!')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">Not bad, thanks!</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">還不錯，謝謝！</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/nɒt bæd θæŋks/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('How are you? — Not bad, thanks! Busy as usual.')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('How are you? — Not bad, thanks! Busy as usual.')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('How are you? — Not bad, thanks! Busy as usual.')">慢速</button>
+      </div>
+    </div>
+
+  </div>
+  <!-- READING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 04</span>
+      <h2 class="section-title">閱讀理解</h2>
+      <span class="section-en">Reading Comprehension</span>
+    </div>
+    <div class="passage">
+      <div style="display:flex;justify-content:space-between;margin-bottom:1.2rem;align-items:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Reading Passage</span>
+        <button class="btn-tts" onclick="readPassage()">朗讀全文</button>
+      </div>
+      <div class="passage-text">Small talk is a very important part of English social culture. Unlike some cultures where talking to strangers is unusual, English speakers often chat casually with people they just met. Weather is the most universal topic for small talk because everyone experiences it and it is not controversial. Other popular small talk topics include sports, weekend plans, and recent movies or TV shows. The goal of small talk is not to have a deep conversation but to be friendly and make the other person feel comfortable. Learning a few standard phrases can go a long way in social situations.</div>
+    </div>
+    <div class="grammar-box">
+      <div class="grammar-pattern">I've been + adj/verb-ing  |  How have you been?  |  I have been + (location/activity)  |  It has been + (time) + since...</div>
+      <div class="grammar-note-text">現在完成式 (Present Perfect)：have/has + past participle，表示從過去到現在持續的狀態或經歷。I've been busy = 我（一直）很忙。</div>
+      <div class="tts-controls" style="margin-top:1rem">
+        <button class="btn-tts" onclick="speak('What\'s the weather like in Tokyo in spring?')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('What\'s the weather like in Tokyo in spring?')">Female 示範</button>
+      </div>
+    </div>
+  </div>
+  <!-- WRITING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 05</span>
+      <h2 class="section-title">書寫練習</h2>
+      <span class="section-en">Writing Practice</span>
+    </div>
+    <div class="writing-prompt">
+      <div class="prompt-label">Exercise — 情境書寫練習</div>
+      <p class="prompt-text">根據今天的主題「天氣與閒聊」，用英文寫出3-5個句子，描述你在這個情境下會說什麼。可以參考今天學到的詞彙和句型。</p>
+      <textarea class="writing-area" id="mainWrite" placeholder="Write your answer here in English..."></textarea>
+      <button class="btn-check" onclick="checkMainWrite()">確認並查看範例</button>
+      <div class="feedback-box" id="mainFb"></div>
+    </div>
+  </div>
+  <!-- SUMMARY -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Summary</span>
+      <h2 class="section-title">今日重點整理</h2>
+      <span class="section-en">Day 07 Review</span>
+    </div>
+    <div style="background:var(--cream-dark);border:1px solid var(--rule);padding:2rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+        <div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;">今日學會的句型</p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;line-height:2.2;color:var(--ink);">
+            <span style="color:var(--red)">—</span> What's the weather like? — 問天氣<br><span style="color:var(--red)">—</span> It's sunny/cloudy/rainy — 描述天氣<br><span style="color:var(--red)">—</span> How have you been? — 問近況<br><span style="color:var(--red)">—</span> Not bad, thanks! — 回應<br><span style="color:var(--red)">—</span> What have you been up to? — 問最近動態<br><span style="color:var(--red)">—</span> I've been... — 說近況
+          </div>
+        </div>
+        <div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;">明日預習</p>
+          <p style="font-size:0.9rem;line-height:1.8;color:var(--ink-light);">Day 08 進入中級：機場入境！辦理登機、通過海關，出國必備的機場英語大全。</p>
+          <a href="day8.html" style="display:inline-block;margin-top:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.7rem 1.5rem;background:var(--red);color:var(--cream);text-decoration:none;">前往 Day 08</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lesson-nav">
+  <a href="day6.html" class="nav-btn">&lt;— Day 06</a>
+  <span class="nav-progress">DAY 07 / 20 — 35% COMPLETE</span>
+  <a href="day8.html" class="nav-btn next">Day 08 —&gt;</a>
+</div>
+<script>
+  let currentVoice = 'male';
+  let currentRate = 0.8;
+  let maleVoice = null;
+  let femaleVoice = null;
+
+  function loadVoices() {
+    const voices = speechSynthesis.getVoices();
+    const engVoices = voices.filter(v => v.lang.startsWith('en'));
+    maleVoice = engVoices.find(v => /david|male|guy|james|mark|tom/i.test(v.name)) || engVoices.find(v => v.lang === 'en-US') || engVoices[0];
+    femaleVoice = engVoices.find(v => /samantha|female|zira|susan|karen|alice|victoria/i.test(v.name)) || engVoices.find(v => v.lang === 'en-GB') || engVoices[1] || engVoices[0];
+  }
+  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  function setVoice(gender) {
+    currentVoice = gender;
+    document.getElementById('btn-male').className = 'voice-btn' + (gender === 'male' ? ' active-m' : '');
+    document.getElementById('btn-female').className = 'voice-btn' + (gender === 'female' ? ' active-f' : '');
+  }
+  function setRate(rate, btn) {
+    currentRate = rate;
+    document.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function speakText(text, gender, rate) {
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.voice = gender === 'female' ? (femaleVoice || maleVoice) : (maleVoice || femaleVoice);
+    utter.rate = rate || currentRate;
+    utter.pitch = gender === 'female' ? 1.15 : 0.9;
+    utter.lang = 'en-US';
+    speechSynthesis.speak(utter);
+  }
+  function speak(text) { speakText(text, currentVoice, currentRate); }
+  function speakFemale(text) { speakText(text, 'female', currentRate); }
+  function speakSlow(text) { speakText(text, currentVoice, 0.6); }
+
+  const dialogueData = [{"text": "Hey Sarah! Long time no see! How have you been?", "gender": "male"}, {"text": "Mark! I've been great, thanks! What about you?", "gender": "female"}, {"text": "Not bad! Busy with work. Terrible weather today, isn't it?", "gender": "male"}, {"text": "I know! It's been raining all week. I hope it clears up soon.", "gender": "female"}, {"text": "Exactly. Hey, what have you been up to lately?", "gender": "male"}, {"text": "I've been taking online English classes! It's been really fun.", "gender": "female"}];
+  function playDialogue() {
+    speechSynthesis.cancel();
+    let delay = 0;
+    dialogueData.forEach(line => {
+      setTimeout(() => speakText(line.text, line.gender, 0.85), delay);
+      delay += (line.text.length * 65) + 700;
+    });
+  }
+
+  const passageText = `Small talk is a very important part of English social culture. Unlike some cultures where talking to strangers is unusual, English speakers often chat casually with people they just met. Weather is the most universal topic for small talk because everyone experiences it and it is not controversial. Other popular small talk topics include sports, weekend plans, and recent movies or TV shows. The goal of small talk is not to have a deep conversation but to be friendly and make the other person feel comfortable. Learning a few standard phrases can go a long way in social situations.`;
+  function readPassage() { speakText(passageText, currentVoice, 0.85); }
+
+  function checkAnswer(btn, isCorrect) {
+    const container = btn.closest('.listen-card');
+    container.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  }
+
+  function checkMainWrite() {
+    const val = document.getElementById('mainWrite').value.trim();
+    const fb = document.getElementById('mainFb');
+    fb.className = 'feedback-box show';
+    if (val.length < 15) {
+      fb.innerHTML = '請試著用英文寫更多內容！參考今天學到的句型和詞彙。';
+      return;
+    }
+    fb.innerHTML = '<strong>已送出！</strong> 嘗試大聲朗讀你寫的內容，或請朋友幫你檢查。<br><br><button class="btn-tts" onclick="speak(document.getElementById('mainWrite').value)">朗讀我的作文</button>';
+  }
+</script>
+</body>
+</html>

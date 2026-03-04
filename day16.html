@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Day 16 — Culture & Social Etiquette | English Daily</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --cream: #F5F0E8;
+      --ink: #1A1A18;
+      --red: #C0392B;
+      --ink-light: #4A4A42;
+      --cream-dark: #EAE4D6;
+      --rule: rgba(26,26,24,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--cream); color: var(--ink); font-family: 'Noto Serif TC', serif; min-height: 100vh; }
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events: none; z-index: 100; }
+    .site-header { border-bottom: 2px solid var(--ink); padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .site-logo { font-family: 'Noto Serif TC', serif; font-weight: 700; font-size: 1.2rem; text-decoration: none; color: var(--ink); }
+    .site-logo span { color: var(--red); }
+    .header-nav { display: flex; align-items: center; gap: 2rem; }
+    .nav-link { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--ink-light); text-decoration: none; transition: color 0.2s; }
+    .nav-link:hover { color: var(--red); }
+    .day-banner { background: var(--ink); color: var(--cream); padding: 3rem; position: relative; overflow: hidden; }
+    .day-banner::after { content: 'DAY 16'; position: absolute; right: 3rem; top: 50%; transform: translateY(-50%); font-family: 'IBM Plex Mono', monospace; font-size: clamp(4rem, 10vw, 8rem); font-weight: 300; opacity: 0.08; letter-spacing: -0.05em; line-height: 1; pointer-events: none; }
+    .banner-tag { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: #E8A09A; margin-bottom: 0.8rem; }
+    .banner-title { font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; margin-bottom: 0.5rem; }
+    .banner-en { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; color: rgba(245,240,232,0.6); margin-bottom: 1.5rem; }
+    .banner-meta { display: flex; gap: 2rem; flex-wrap: wrap; }
+    .meta-chip { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid rgba(245,240,232,0.3); color: rgba(245,240,232,0.7); }
+    .progress-bar { height: 3px; background: var(--cream-dark); }
+    .progress-fill { height: 100%; background: var(--red); }
+    .lesson-body { max-width: 1100px; margin: 0 auto; padding: 3rem; }
+    .section-header { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2rem; padding-bottom: 0.8rem; border-bottom: 2px solid var(--ink); }
+    .section-num { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.15em; color: var(--red); text-transform: uppercase; }
+    .section-title { font-size: 1.3rem; font-weight: 700; }
+    .section-en { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--ink-light); }
+    .lesson-section { margin-bottom: 4rem; }
+    .vocab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); margin-bottom: 2rem; }
+    .vocab-card { background: var(--cream); padding: 1.2rem; }
+    .vocab-en { font-family: 'IBM Plex Mono', monospace; font-size: 1rem; font-weight: 500; margin-bottom: 0.2rem; }
+    .vocab-phonetic { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--red); margin-bottom: 0.4rem; }
+    .vocab-zh { font-size: 0.85rem; color: var(--ink-light); margin-bottom: 0.8rem; }
+    .vocab-example { font-size: 0.8rem; font-style: italic; color: var(--ink-light); line-height: 1.5; }
+    .tts-controls { display: flex; gap: 0.5rem; margin-top: 0.8rem; flex-wrap: wrap; }
+    .btn-tts { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.7rem; border: 1px solid var(--ink); background: transparent; color: var(--ink); cursor: pointer; transition: all 0.2s; }
+    .btn-tts:hover { background: var(--ink); color: var(--cream); }
+    .btn-tts.female { border-color: var(--red); color: var(--red); }
+    .btn-tts.female:hover { background: var(--red); color: var(--cream); }
+    .dialogue-box { border: 1px solid var(--rule); margin-bottom: 1.5rem; }
+    .dialogue-header { background: var(--cream-dark); padding: 0.7rem 1.2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--rule); }
+    .dialogue-title { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .dialogue-body { padding: 1.5rem; }
+    .line { display: grid; grid-template-columns: 80px 1fr; gap: 1rem; margin-bottom: 1.2rem; align-items: start; }
+    .line:last-child { margin-bottom: 0; }
+    .speaker { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); padding-top: 0.1rem; }
+    .speech { font-size: 0.95rem; line-height: 1.6; }
+    .speech .en { font-family: 'IBM Plex Mono', monospace; font-size: 0.9rem; display: block; margin-bottom: 0.2rem; }
+    .speech .zh { font-size: 0.8rem; color: var(--ink-light); display: block; }
+    .passage { background: var(--cream-dark); border: 1px solid var(--rule); padding: 2rem; margin-bottom: 1.5rem; }
+    .passage-text { font-size: 1rem; line-height: 2; margin-bottom: 1rem; }
+    .grammar-box { border: 1px solid var(--ink); padding: 1.5rem; margin-bottom: 1.5rem; position: relative; }
+    .grammar-box::before { content: 'GRAMMAR NOTE'; position: absolute; top: -0.6rem; left: 1rem; background: var(--cream); padding: 0 0.5rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.15em; color: var(--ink); }
+    .grammar-pattern { font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--red); margin-bottom: 1rem; padding: 0.8rem; background: var(--cream-dark); border-left: 3px solid var(--red); line-height: 1.6; }
+    .grammar-note-text { font-size: 0.9rem; line-height: 1.8; color: var(--ink-light); }
+    .listen-card { border: 1px solid var(--rule); padding: 1.5rem; margin-bottom: 1rem; background: var(--cream); }
+    .listen-question { font-size: 0.95rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; margin-bottom: 1rem; }
+    .option-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem; padding: 0.7rem 1rem; background: transparent; border: 1px solid var(--rule); color: var(--ink); cursor: pointer; text-align: left; transition: all 0.2s; line-height: 1.4; }
+    .option-btn:hover { border-color: var(--ink); }
+    .option-btn.correct { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .option-btn.wrong { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .writing-prompt { border: 1px solid var(--rule); padding: 1.5rem; margin-bottom: 1rem; }
+    .prompt-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); margin-bottom: 0.8rem; }
+    .prompt-text { font-size: 1rem; line-height: 1.6; margin-bottom: 1.2rem; }
+    .writing-area { width: 100%; min-height: 100px; background: var(--cream); border: 1px solid var(--rule); border-top: 2px solid var(--ink); padding: 1rem; font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; color: var(--ink); resize: vertical; outline: none; line-height: 1.8; transition: border-color 0.2s; }
+    .writing-area:focus { border-top-color: var(--red); }
+    .writing-area::placeholder { color: rgba(26,26,24,0.3); }
+    .btn-check { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: var(--ink); color: var(--cream); border: none; cursor: pointer; margin-top: 0.8rem; transition: background 0.2s; }
+    .btn-check:hover { background: var(--red); }
+    .feedback-box { padding: 1rem; margin-top: 0.8rem; font-size: 0.85rem; line-height: 1.6; display: none; border-left: 3px solid var(--ink); background: var(--cream-dark); }
+    .feedback-box.show { display: block; }
+    .voice-bar { background: var(--cream-dark); border-bottom: 1px solid var(--rule); padding: 0.7rem 3rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; }
+    .voice-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-light); }
+    .voice-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; padding: 0.25rem 0.8rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.2s; }
+    .voice-btn.active-m { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .voice-btn.active-f { background: var(--red); color: var(--cream); border-color: var(--red); }
+    .voice-rate { display: flex; align-items: center; gap: 0.8rem; margin-left: auto; }
+    .rate-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; padding: 0.2rem 0.6rem; border: 1px solid var(--rule); background: transparent; cursor: pointer; transition: all 0.2s; }
+    .rate-btn.active { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+    .lesson-nav { border-top: 2px solid var(--ink); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; }
+    .nav-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.8rem 1.5rem; border: 1px solid var(--ink); color: var(--ink); text-decoration: none; transition: all 0.2s; }
+    .nav-btn:hover { background: var(--ink); color: var(--cream); }
+    .nav-btn.next { background: var(--red); border-color: var(--red); color: var(--cream); }
+    .nav-btn.next:hover { background: var(--ink); border-color: var(--ink); }
+    .nav-btn.disabled { opacity: 0.3; pointer-events: none; }
+    .nav-progress { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--ink-light); letter-spacing: 0.1em; }
+    @media (max-width: 768px) {
+      .site-header, .day-banner, .lesson-body, .lesson-nav, .voice-bar { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .options-grid { grid-template-columns: 1fr; }
+      .vocab-grid { grid-template-columns: 1fr 1fr; }
+      .line { grid-template-columns: 60px 1fr; }
+    }
+    @media (max-width: 480px) { .vocab-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<header class="site-header">
+  <a href="index.html" class="site-logo">English <span>Daily</span></a>
+  <nav class="header-nav">
+    <a href="index.html" class="nav-link">課程總覽</a>
+    <a href="day15.html" class="nav-link">上一課</a>
+    <a href="day17.html" class="nav-link">下一課</a>
+  </nav>
+</header>
+<div class="progress-bar"><div class="progress-fill" style="width:80%"></div></div>
+<div class="day-banner">
+  <div class="banner-tag">Day 16 / 20 — Advanced</div>
+  <h1 class="banner-title">文化差異與禮儀</h1>
+  <p class="banner-en">Culture & Social Etiquette</p>
+  <div class="banner-meta">
+    <span class="meta-chip">LISTEN</span>
+    <span class="meta-chip">SPEAK</span>
+    <span class="meta-chip">READ</span>
+    <span class="meta-chip">WRITE</span>
+    <span class="meta-chip">SITUATION: CULTURE</span>
+  </div>
+</div>
+<div class="voice-bar">
+  <span class="voice-label">發音聲線</span>
+  <button class="voice-btn active-m" id="btn-male" onclick="setVoice('male')">Male — 男聲</button>
+  <button class="voice-btn" id="btn-female" onclick="setVoice('female')">Female — 女聲</button>
+  <div class="voice-rate">
+    <span class="voice-label">語速</span>
+    <button class="rate-btn active" onclick="setRate(0.8, this)">慢</button>
+    <button class="rate-btn" onclick="setRate(1.0, this)">正常</button>
+    <button class="rate-btn" onclick="setRate(1.3, this)">快</button>
+  </div>
+</div>
+<div class="lesson-body">
+  <!-- VOCABULARY -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 01</span>
+      <h2 class="section-title">核心詞彙</h2>
+      <span class="section-en">Key Vocabulary</span>
+    </div>
+    <div class="vocab-grid">
+      <div class="vocab-card">
+        <div class="vocab-en">That's very kind of you.</div>
+        <div class="vocab-phonetic">/ðæts ˈvɛri kaɪnd əv juː/</div>
+        <div class="vocab-zh">你真是太好了</div>
+        <div class="vocab-example">You paid for dinner? That's very kind of you!</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('You paid for dinner? That\'s very kind of you!')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('You paid for dinner? That\'s very kind of you!')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">I don't want to impose.</div>
+        <div class="vocab-phonetic">/aɪ doʊnt wɒnt tə ɪmˈpoʊz/</div>
+        <div class="vocab-zh">我不想打擾/麻煩你</div>
+        <div class="vocab-example">I don't want to impose, but could I stay one more night?</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('I don\'t want to impose, but could I stay one more night?')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('I don\'t want to impose, but could I stay one more night?')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">I'm afraid I can't make it.</div>
+        <div class="vocab-phonetic">/aɪm əˈfreɪd aɪ kænt meɪk ɪt/</div>
+        <div class="vocab-zh">恐怕我無法出席</div>
+        <div class="vocab-example">I'm afraid I can't make it to the party on Saturday.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('I\'m afraid I can\'t make it to the party on Saturday.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('I\'m afraid I can\'t make it to the party on Saturday.')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">I really appreciate it.</div>
+        <div class="vocab-phonetic">/aɪ ˈrɪəli əˈpriːʃɪeɪt ɪt/</div>
+        <div class="vocab-zh">我真的非常感謝</div>
+        <div class="vocab-example">You went out of your way to help me. I really appreciate it.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('You went out of your way to help me. I really appreciate it.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('You went out of your way to help me. I really appreciate it.')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">I hope I haven't offended you.</div>
+        <div class="vocab-phonetic">/aɪ hoʊp aɪ hævnt əˈfɛndɪd juː/</div>
+        <div class="vocab-zh">希望我沒有冒犯你</div>
+        <div class="vocab-example">That came out wrong. I hope I haven't offended you.</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('That came out wrong. I hope I haven\'t offended you.')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('That came out wrong. I hope I haven\'t offended you.')">Female</button>
+        </div>
+      </div><div class="vocab-card">
+        <div class="vocab-en">When in Rome...</div>
+        <div class="vocab-phonetic">/wɛn ɪn roʊm/</div>
+        <div class="vocab-zh">入境隨俗</div>
+        <div class="vocab-example">I'll try the local food. When in Rome, do as the Romans do!</div>
+        <div class="tts-controls">
+          <button class="btn-tts" onclick="speak('I\'ll try the local food. When in Rome, do as the Romans do!')">Male</button>
+          <button class="btn-tts female" onclick="speakFemale('I\'ll try the local food. When in Rome, do as the Romans do!')">Female</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- LISTENING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 02</span>
+      <h2 class="section-title">聽力練習</h2>
+      <span class="section-en">Listening & Dialogue</span>
+    </div>
+    <div class="dialogue-box">
+      <div class="dialogue-header">
+        <span class="dialogue-title">Dialogue — 文化差異與禮儀 / Culture & Social Etiquette</span>
+        <button class="btn-tts" onclick="playDialogue()">播放對話</button>
+      </div>
+      <div class="dialogue-body">
+        <div class="line">
+          <span class="speaker">Host</span>
+          <div class="speech">
+            <span class="en">"Welcome to our home! Please, come in and make yourself at home."</span>
+            <span class="zh">歡迎來到我們家！請進，把這裡當自己家。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Guest</span>
+          <div class="speech">
+            <span class="en">"Thank you so much. You have a beautiful home."</span>
+            <span class="zh">非常感謝。您的家真是漂亮。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Host</span>
+          <div class="speech">
+            <span class="en">"Can I get you something to drink? Tea, coffee, or juice?"</span>
+            <span class="zh">我可以給您準備點喝的嗎？茶、咖啡還是果汁？</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Guest</span>
+          <div class="speech">
+            <span class="en">"Tea would be lovely, thank you. I hope I'm not imposing."</span>
+            <span class="zh">茶就很好了，謝謝。希望我沒有打擾到您。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Host</span>
+          <div class="speech">
+            <span class="en">"Not at all! We're so happy you could visit."</span>
+            <span class="zh">完全沒有！我們很高興您能來拜訪。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Guest</span>
+          <div class="speech">
+            <span class="en">"I brought some pastries from the bakery. I hope you like them."</span>
+            <span class="zh">我帶了一些來自麵包店的糕點。希望您喜歡。</span>
+          </div>
+        </div>
+<div class="line">
+          <span class="speaker">Host</span>
+          <div class="speech">
+            <span class="en">"Oh, you shouldn't have! That's very kind of you!"</span>
+            <span class="zh">哦，你真是太客氣了！你真好心！</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.1em;color:var(--ink-light);margin-bottom:1.5rem;text-transform:uppercase;">— 聽完對話後，回答以下問題 —</p>
+    <div class="listen-card">
+      <div class="listen-question">1. What does 'You shouldn't have!' mean when someone brings a gift?</div>
+      <div class="options-grid"><button class="option-btn" onclick="checkAnswer(this, false)">你不應該來這裡</button>
+<button class="option-btn" onclick="checkAnswer(this, true)">謝謝你的禮物，你太客氣了</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">你帶錯東西了</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">你應該早點來</button>
+</div>
+    </div>
+<div class="listen-card">
+      <div class="listen-question">2. What is 'queueing'?</div>
+      <div class="options-grid"><button class="option-btn" onclick="checkAnswer(this, false)">點餐</button>
+<button class="option-btn" onclick="checkAnswer(this, true)">排隊等候</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">問路</button>
+<button class="option-btn" onclick="checkAnswer(this, false)">打電話</button>
+</div>
+    </div>
+
+  </div>
+  <!-- SPEAKING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 03</span>
+      <h2 class="section-title">口語發音</h2>
+      <span class="section-en">Speaking Practice</span>
+    </div>
+    <p style="font-size:0.9rem;color:var(--ink-light);line-height:1.7;margin-bottom:2rem;">先聆聽示範，再跟著大聲說出來。注意語調與連音。</p>
+    <div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">That's very kind of you.</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">你真是太好了</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/ðæts ˈvɛri kaɪnd əv juː/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('You paid for dinner? That\'s very kind of you!')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('You paid for dinner? That\'s very kind of you!')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('You paid for dinner? That\'s very kind of you!')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">I don't want to impose.</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">我不想打擾/麻煩你</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/aɪ doʊnt wɒnt tə ɪmˈpoʊz/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('I don\'t want to impose, but could I stay one more night?')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('I don\'t want to impose, but could I stay one more night?')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('I don\'t want to impose, but could I stay one more night?')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">I'm afraid I can't make it.</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">恐怕我無法出席</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/aɪm əˈfreɪd aɪ kænt meɪk ɪt/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('I\'m afraid I can\'t make it to the party on Saturday.')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('I\'m afraid I can\'t make it to the party on Saturday.')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('I\'m afraid I can\'t make it to the party on Saturday.')">慢速</button>
+      </div>
+    </div>
+<div style="border:1px solid var(--rule);padding:1.5rem;margin-bottom:1rem;">
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:500;margin-bottom:0.3rem;">I really appreciate it.</div>
+      <div style="font-size:0.85rem;color:var(--ink-light);margin-bottom:0.4rem;">我真的非常感謝</div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:0.75rem;color:var(--red);margin-bottom:1rem;">/aɪ ˈrɪəli əˈpriːʃɪeɪt ɪt/</div>
+      <div class="tts-controls">
+        <button class="btn-tts" onclick="speak('You went out of your way to help me. I really appreciate it.')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('You went out of your way to help me. I really appreciate it.')">Female 示範</button>
+        <button class="btn-tts" onclick="speakSlow('You went out of your way to help me. I really appreciate it.')">慢速</button>
+      </div>
+    </div>
+
+  </div>
+  <!-- READING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 04</span>
+      <h2 class="section-title">閱讀理解</h2>
+      <span class="section-en">Reading Comprehension</span>
+    </div>
+    <div class="passage">
+      <div style="display:flex;justify-content:space-between;margin-bottom:1.2rem;align-items:center;">
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--ink-light)">Reading Passage</span>
+        <button class="btn-tts" onclick="readPassage()">朗讀全文</button>
+      </div>
+      <div class="passage-text">Cultural etiquette varies greatly around the English-speaking world. In the United Kingdom, queueing (standing in line) is taken very seriously, and cutting in line is considered extremely rude. In Australia, people tend to be casual and egalitarian — you might call your boss by their first name. In the United States, it is common to smile at strangers and engage in brief small talk. When invited to someone's home in most Western cultures, it is polite to bring a small gift such as wine, flowers, or chocolates. Never arrive early — arriving exactly on time or a few minutes late is perfectly acceptable in many countries.</div>
+    </div>
+    <div class="grammar-box">
+      <div class="grammar-pattern">I'm afraid + negative news  |  I don't want to impose, but...  |  You shouldn't have! (謝人時的套語)  |  I really appreciate + noun/it</div>
+      <div class="grammar-note-text">'I'm afraid' 用於禮貌地傳達壞消息或拒絕：'I'm afraid I can't come.' 這個表達非常有禮，遠比直接說 'I can't come.' 更得體。</div>
+      <div class="tts-controls" style="margin-top:1rem">
+        <button class="btn-tts" onclick="speak('You paid for dinner? That\'s very kind of you!')">Male 示範</button>
+        <button class="btn-tts female" onclick="speakFemale('You paid for dinner? That\'s very kind of you!')">Female 示範</button>
+      </div>
+    </div>
+  </div>
+  <!-- WRITING -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Part 05</span>
+      <h2 class="section-title">書寫練習</h2>
+      <span class="section-en">Writing Practice</span>
+    </div>
+    <div class="writing-prompt">
+      <div class="prompt-label">Exercise — 情境書寫練習</div>
+      <p class="prompt-text">根據今天的主題「文化差異與禮儀」，用英文寫出3-5個句子，描述你在這個情境下會說什麼。可以參考今天學到的詞彙和句型。</p>
+      <textarea class="writing-area" id="mainWrite" placeholder="Write your answer here in English..."></textarea>
+      <button class="btn-check" onclick="checkMainWrite()">確認並查看範例</button>
+      <div class="feedback-box" id="mainFb"></div>
+    </div>
+  </div>
+  <!-- SUMMARY -->
+  <div class="lesson-section">
+    <div class="section-header">
+      <span class="section-num">Summary</span>
+      <h2 class="section-title">今日重點整理</h2>
+      <span class="section-en">Day 16 Review</span>
+    </div>
+    <div style="background:var(--cream-dark);border:1px solid var(--rule);padding:2rem;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;">
+        <div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;">今日學會的句型</p>
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:0.8rem;line-height:2.2;color:var(--ink);">
+            <span style="color:var(--red)">—</span> That's very kind of you. — 感謝別人<br><span style="color:var(--red)">—</span> I don't want to impose. — 不想麻煩<br><span style="color:var(--red)">—</span> I'm afraid I can't... — 禮貌拒絕<br><span style="color:var(--red)">—</span> I really appreciate it. — 深深感謝<br><span style="color:var(--red)">—</span> You shouldn't have! — 謝人帶禮<br><span style="color:var(--red)">—</span> When in Rome... — 入境隨俗
+          </div>
+        </div>
+        <div>
+          <p style="font-family:'IBM Plex Mono',monospace;font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:1rem;">明日預習</p>
+          <p style="font-size:0.9rem;line-height:1.8;color:var(--ink-light);">Day 17 學表達意見與辯論技巧，用英語說服他人、提出觀點，進階口語的核心能力。</p>
+          <a href="day17.html" style="display:inline-block;margin-top:1.2rem;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.7rem 1.5rem;background:var(--red);color:var(--cream);text-decoration:none;">前往 Day 17</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="lesson-nav">
+  <a href="day15.html" class="nav-btn">&lt;— Day 15</a>
+  <span class="nav-progress">DAY 16 / 20 — 80% COMPLETE</span>
+  <a href="day17.html" class="nav-btn next">Day 17 —&gt;</a>
+</div>
+<script>
+  let currentVoice = 'male';
+  let currentRate = 0.8;
+  let maleVoice = null;
+  let femaleVoice = null;
+
+  function loadVoices() {
+    const voices = speechSynthesis.getVoices();
+    const engVoices = voices.filter(v => v.lang.startsWith('en'));
+    maleVoice = engVoices.find(v => /david|male|guy|james|mark|tom/i.test(v.name)) || engVoices.find(v => v.lang === 'en-US') || engVoices[0];
+    femaleVoice = engVoices.find(v => /samantha|female|zira|susan|karen|alice|victoria/i.test(v.name)) || engVoices.find(v => v.lang === 'en-GB') || engVoices[1] || engVoices[0];
+  }
+  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+
+  function setVoice(gender) {
+    currentVoice = gender;
+    document.getElementById('btn-male').className = 'voice-btn' + (gender === 'male' ? ' active-m' : '');
+    document.getElementById('btn-female').className = 'voice-btn' + (gender === 'female' ? ' active-f' : '');
+  }
+  function setRate(rate, btn) {
+    currentRate = rate;
+    document.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+  function speakText(text, gender, rate) {
+    speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.voice = gender === 'female' ? (femaleVoice || maleVoice) : (maleVoice || femaleVoice);
+    utter.rate = rate || currentRate;
+    utter.pitch = gender === 'female' ? 1.15 : 0.9;
+    utter.lang = 'en-US';
+    speechSynthesis.speak(utter);
+  }
+  function speak(text) { speakText(text, currentVoice, currentRate); }
+  function speakFemale(text) { speakText(text, 'female', currentRate); }
+  function speakSlow(text) { speakText(text, currentVoice, 0.6); }
+
+  const dialogueData = [{"text": "Welcome to our home! Please, come in and make yourself at home.", "gender": "female"}, {"text": "Thank you so much. You have a beautiful home.", "gender": "male"}, {"text": "Can I get you something to drink? Tea, coffee, or juice?", "gender": "female"}, {"text": "Tea would be lovely, thank you. I hope I'm not imposing.", "gender": "male"}, {"text": "Not at all! We're so happy you could visit.", "gender": "female"}, {"text": "I brought some pastries from the bakery. I hope you like them.", "gender": "male"}, {"text": "Oh, you shouldn't have! That's very kind of you!", "gender": "female"}];
+  function playDialogue() {
+    speechSynthesis.cancel();
+    let delay = 0;
+    dialogueData.forEach(line => {
+      setTimeout(() => speakText(line.text, line.gender, 0.85), delay);
+      delay += (line.text.length * 65) + 700;
+    });
+  }
+
+  const passageText = `Cultural etiquette varies greatly around the English-speaking world. In the United Kingdom, queueing (standing in line) is taken very seriously, and cutting in line is considered extremely rude. In Australia, people tend to be casual and egalitarian — you might call your boss by their first name. In the United States, it is common to smile at strangers and engage in brief small talk. When invited to someone's home in most Western cultures, it is polite to bring a small gift such as wine, flowers, or chocolates. Never arrive early — arriving exactly on time or a few minutes late is perfectly acceptable in many countries.`;
+  function readPassage() { speakText(passageText, currentVoice, 0.85); }
+
+  function checkAnswer(btn, isCorrect) {
+    const container = btn.closest('.listen-card');
+    container.querySelectorAll('.option-btn').forEach(b => b.disabled = true);
+    btn.classList.add(isCorrect ? 'correct' : 'wrong');
+  }
+
+  function checkMainWrite() {
+    const val = document.getElementById('mainWrite').value.trim();
+    const fb = document.getElementById('mainFb');
+    fb.className = 'feedback-box show';
+    if (val.length < 15) {
+      fb.innerHTML = '請試著用英文寫更多內容！參考今天學到的句型和詞彙。';
+      return;
+    }
+    fb.innerHTML = '<strong>已送出！</strong> 嘗試大聲朗讀你寫的內容，或請朋友幫你檢查。<br><br><button class="btn-tts" onclick="speak(document.getElementById('mainWrite').value)">朗讀我的作文</button>';
+  }
+</script>
+</body>
+</html>
